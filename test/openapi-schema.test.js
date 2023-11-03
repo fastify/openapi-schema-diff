@@ -4,7 +4,7 @@ const assert = require('node:assert/strict')
 const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
-test('should throw if source schema is not an object', async () => {
+test('should throw if source schema is not an object', () => {
   const target = { openapi: '1.0.0', paths: {} }
   const source = 3
 
@@ -16,7 +16,7 @@ test('should throw if source schema is not an object', async () => {
   }
 })
 
-test('should throw if target schema is not an object', async () => {
+test('should throw if target schema is not an object', () => {
   const target = 3
   const source = { openapi: '1.0.0', paths: {} }
 
@@ -28,7 +28,7 @@ test('should throw if target schema is not an object', async () => {
   }
 })
 
-test('should throw if source schema is null', async () => {
+test('should throw if source schema is null', () => {
   const target = { openapi: '1.0.0', paths: {} }
   const source = null
 
@@ -40,7 +40,7 @@ test('should throw if source schema is null', async () => {
   }
 })
 
-test('should throw if target schema is null', async () => {
+test('should throw if target schema is null', () => {
   const target = null
   const source = { openapi: '1.0.0', paths: {} }
 

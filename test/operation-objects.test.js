@@ -4,7 +4,7 @@ const assert = require('node:assert/strict')
 const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
-test('compare two equal schemas', async () => {
+test('compare two equal schemas', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -36,7 +36,7 @@ test('compare two equal schemas', async () => {
   })
 })
 
-test('changing schema property value', async () => {
+test('changing schema property value', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -82,7 +82,7 @@ test('changing schema property value', async () => {
   })
 })
 
-test('removing schema property', async () => {
+test('removing schema property', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -125,7 +125,7 @@ test('removing schema property', async () => {
   })
 })
 
-test('adding schema property', async () => {
+test('adding schema property', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -168,7 +168,7 @@ test('adding schema property', async () => {
   })
 })
 
-test('adding new route', async () => {
+test('adding new route', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -209,7 +209,7 @@ test('adding new route', async () => {
   })
 })
 
-test('adding new operation object', async () => {
+test('adding new operation object', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -248,7 +248,7 @@ test('adding new operation object', async () => {
   })
 })
 
-test('removing an operation object', async () => {
+test('removing an operation object', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -287,7 +287,7 @@ test('removing an operation object', async () => {
   })
 })
 
-test('removing a route', async () => {
+test('removing a route', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -328,7 +328,7 @@ test('removing a route', async () => {
   })
 })
 
-test('modifying routes schema through ref', async () => {
+test('modifying routes schema through ref', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -398,7 +398,7 @@ test('modifying routes schema through ref', async () => {
   })
 })
 
-test('different $ref property values', async () => {
+test('different $ref property values', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -468,7 +468,7 @@ test('different $ref property values', async () => {
   })
 })
 
-test('compare two equal schemas with circular refs', async () => {
+test('compare two equal schemas with circular refs', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -506,7 +506,7 @@ test('compare two equal schemas with circular refs', async () => {
   })
 })
 
-test('compare two different schemas with circular refs', async () => {
+test('compare two different schemas with circular refs', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -582,7 +582,7 @@ test('compare two different schemas with circular refs', async () => {
   })
 })
 
-test('compare two equal schemas with cross circular refs', async () => {
+test('compare two equal schemas with cross circular refs', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -631,7 +631,7 @@ test('compare two equal schemas with cross circular refs', async () => {
   })
 })
 
-test('compare two equal schemas with cross circular refs', async () => {
+test('compare two equal schemas with cross circular refs', () => {
   const target = {
     openapi: '1.0.0',
     components: {
@@ -729,7 +729,7 @@ test('compare two equal schemas with cross circular refs', async () => {
   })
 })
 
-test('should not count summery and description properties', async () => {
+test('should not count summery and description properties', () => {
   const target = {
     openapi: '1.0.0',
     paths: {
@@ -785,7 +785,7 @@ test('should not count summery and description properties', async () => {
   })
 })
 
-test('should not count summery and description properties', async () => {
+test('should not count summery and description properties', () => {
   const target = {
     openapi: '1.0.0',
     paths: {

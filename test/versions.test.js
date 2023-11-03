@@ -4,7 +4,7 @@ const assert = require('node:assert/strict')
 const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
-test('should throw source schema version is missing', async () => {
+test('should throw source schema version is missing', () => {
   const target = { openapi: '1.0.0', paths: {} }
   const source = { paths: {} }
 
@@ -16,7 +16,7 @@ test('should throw source schema version is missing', async () => {
   }
 })
 
-test('should throw target schema version is missing', async () => {
+test('should throw target schema version is missing', () => {
   const target = { paths: {} }
   const source = { openapi: '1.0.0', paths: {} }
 
@@ -28,7 +28,7 @@ test('should throw target schema version is missing', async () => {
   }
 })
 
-test('should throw if major version does not equal', async () => {
+test('should throw if major version does not equal', () => {
   const target = { openapi: '1.0.0', paths: {} }
   const source = { openapi: '2.0.0', paths: {} }
 
@@ -40,7 +40,7 @@ test('should throw if major version does not equal', async () => {
   }
 })
 
-test('should not throw if minor version does not equal', async () => {
+test('should not throw if minor version does not equal', () => {
   const target = { openapi: '1.0.0', paths: {} }
   const source = { openapi: '1.1.0', paths: {} }
 
@@ -48,7 +48,7 @@ test('should not throw if minor version does not equal', async () => {
   assert.strictEqual(isEqual, true)
 })
 
-test('should not throw if path version does not equal', async () => {
+test('should not throw if path version does not equal', () => {
   const target = { openapi: '1.1.0', paths: {} }
   const source = { openapi: '1.1.1', paths: {} }
 
