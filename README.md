@@ -103,6 +103,7 @@ const schema2 = {
 const differences = compareOpenApiSchemas(schema1, schema2)
 assert.deepEqual(differences, {
   isEqual: false,
+  sameRoutes: [],
   addedRoutes: [],
   deletedRoutes: [],
   modifiedRoutes: [

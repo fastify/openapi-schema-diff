@@ -30,6 +30,15 @@ test('compare two equal schemas', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: true,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        schema: {
+          bar: 42
+        }
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: []
@@ -62,6 +71,7 @@ test('changing schema property value', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -106,6 +116,7 @@ test('removing schema property', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -149,6 +160,7 @@ test('adding schema property', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -195,6 +207,13 @@ test('adding new route', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo1',
+        schema: {}
+      }
+    ],
     addedRoutes: [
       {
         method: 'get',
@@ -234,6 +253,13 @@ test('adding new operation object', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo1',
+        schema: {}
+      }
+    ],
     addedRoutes: [
       {
         method: 'post',
@@ -273,6 +299,13 @@ test('removing an operation object', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo1',
+        schema: {}
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [
       {
@@ -314,6 +347,13 @@ test('removing a route', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo1',
+        schema: {}
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [
       {
@@ -378,6 +418,7 @@ test('modifying routes schema through ref', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -448,6 +489,7 @@ test('different $ref property values', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -500,6 +542,15 @@ test('compare two equal schemas with circular refs', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: true,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        schema: {
+          $ref: '#/components/schemas/Bar'
+        }
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: []
@@ -562,6 +613,7 @@ test('compare two different schemas with circular refs', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -625,6 +677,15 @@ test('compare two equal schemas with cross circular refs', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: true,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        schema: {
+          $ref: '#/components/schemas/Bar1'
+        }
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: []
@@ -709,6 +770,7 @@ test('compare two equal schemas with cross circular refs', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: [
@@ -779,6 +841,29 @@ test('should not count summery and description properties', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: true,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        schema: {
+          bar: 42
+        }
+      },
+      {
+        method: 'get',
+        path: '/bar',
+        schema: {
+          bar: 42
+        }
+      },
+      {
+        method: 'get',
+        path: '/baz',
+        schema: {
+          bar: 42
+        }
+      }
+    ],
     addedRoutes: [],
     deletedRoutes: [],
     modifiedRoutes: []
@@ -825,6 +910,15 @@ test('should not count summery and description properties', () => {
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
     isEqual: false,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        schema: {
+          bar: 42
+        }
+      }
+    ],
     addedRoutes: [
       {
         method: 'get',

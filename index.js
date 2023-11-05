@@ -132,6 +132,8 @@ function compareOperationObjects (
       deletions: routeSchemaDiff.deletions,
       modifications: routeSchemaDiff.modifications
     })
+  } else {
+    ctx.sameOperations.push({ method, path, schema: sourceOperationObject })
   }
 }
 
@@ -216,6 +218,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
     targetSchemaId: randomUUID(),
     sourceRefResolver: new RefResolver(),
     targetRefResolver: new RefResolver(),
+    sameOperations: [],
     addedOperations: [],
     deletedOperations: [],
     modifiedOperations: []
@@ -232,6 +235,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
 
   return {
     isEqual,
+    sameRoutes: ctx.sameOperations,
     addedRoutes: ctx.addedOperations,
     deletedRoutes: ctx.deletedOperations,
     modifiedRoutes: ctx.modifiedOperations
