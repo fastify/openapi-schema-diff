@@ -106,7 +106,7 @@ assert.deepEqual(differences, {
   sameRoutes: [],
   addedRoutes: [],
   deletedRoutes: [],
-  modifiedRoutes: [
+  changedRoutes: [
     {
       method: 'get',
       path: '/pets',

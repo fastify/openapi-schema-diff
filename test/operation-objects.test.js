@@ -41,7 +41,7 @@ test('compare two equal schemas', () => {
     ],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -74,7 +74,7 @@ test('changing schema property value', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -121,7 +121,7 @@ test('removing schema property', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -167,7 +167,7 @@ test('adding schema property', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -230,7 +230,7 @@ test('adding new route', () => {
       }
     ],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -276,7 +276,7 @@ test('adding new operation object', () => {
       }
     ],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -322,7 +322,7 @@ test('removing an operation object', () => {
         }
       }
     ],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -370,7 +370,7 @@ test('removing a route', () => {
         }
       }
     ],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -427,7 +427,7 @@ test('modifying routes schema through ref', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -500,7 +500,7 @@ test('different $ref property values', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -563,7 +563,7 @@ test('compare two equal schemas with circular refs', () => {
     ],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -626,7 +626,7 @@ test('compare two different schemas with circular refs', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -700,7 +700,7 @@ test('compare two equal schemas with cross circular refs', () => {
     ],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -785,7 +785,7 @@ test('compare two equal schemas with cross circular refs', () => {
     sameRoutes: [],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: [
+    changedRoutes: [
       {
         method: 'get',
         path: '/foo',
@@ -880,7 +880,7 @@ test('should not count summery and description properties', () => {
     ],
     addedRoutes: [],
     deletedRoutes: [],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })
 
@@ -951,6 +951,6 @@ test('should not count summery and description properties', () => {
         }
       }
     ],
-    modifiedRoutes: []
+    changedRoutes: []
   })
 })

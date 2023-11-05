@@ -15,7 +15,7 @@ function compareJsonSchemas (
   derefJsonPath,
   additions = [],
   deletions = [],
-  modifications = []
+  changes = []
 ) {
   if (ctx.schemasEquality[jsonPath]) {
     return ctx.schemasEquality[jsonPath]
@@ -25,7 +25,7 @@ function compareJsonSchemas (
     isEqual: null,
     additions: null,
     deletions: null,
-    modifications: null
+    changes: null
   }
   ctx.schemasEquality[jsonPath] = result
 
@@ -74,11 +74,11 @@ function compareJsonSchemas (
         newDerefJsonPath,
         additions,
         deletions,
-        modifications
+        changes
       )
       continue
     }
-    modifications.push({
+    changes.push({
       jsonPath: derefJsonPath + `/${key}`,
       before: targetValue,
       after: sourceValue
@@ -88,11 +88,11 @@ function compareJsonSchemas (
   result.isEqual =
     additions.length === 0 &&
     deletions.length === 0 &&
-    modifications.length === 0
+    changes.length === 0
 
   result.additions = additions
   result.deletions = deletions
-  result.modifications = modifications
+  result.changes = changes
 
   return result
 }
@@ -125,14 +125,14 @@ function compareOperationObjects (
   )
 
   if (routeSchemaDiff.isEqual === false) {
-    ctx.modifiedOperations.push({
+    ctx.changesOperations.push({
       method,
       path,
       sourceSchema: sourceOperationObject,
       targetSchema: targetOperationObject,
       additions: routeSchemaDiff.additions,
       deletions: routeSchemaDiff.deletions,
-      modifications: routeSchemaDiff.modifications
+      changes: routeSchemaDiff.changes
     })
   } else {
     ctx.sameOperations.push({ method, path, schema: sourceOperationObject })
@@ -223,7 +223,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
     sameOperations: [],
     addedOperations: [],
     deletedOperations: [],
-    modifiedOperations: []
+    changesOperations: []
   }
   ctx.sourceRefResolver.addSchema(sourceSchema, ctx.sourceSchemaId)
   ctx.targetRefResolver.addSchema(targetSchema, ctx.targetSchemaId)
@@ -233,14 +233,14 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
   const isEqual =
     ctx.addedOperations.length === 0 &&
     ctx.deletedOperations.length === 0 &&
-    ctx.modifiedOperations.length === 0
+    ctx.changesOperations.length === 0
 
   return {
     isEqual,
     sameRoutes: ctx.sameOperations,
     addedRoutes: ctx.addedOperations,
     deletedRoutes: ctx.deletedOperations,
-    modifiedRoutes: ctx.modifiedOperations
+    changesRoutes: ctx.changesOperations
   }
 }
 
