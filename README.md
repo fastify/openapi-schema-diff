@@ -117,7 +117,7 @@ assert.deepEqual(differences, {
           value: { type: 'string' }
         }
       ],
-      modifications: []
+      changes: []
     }
   ]
 })

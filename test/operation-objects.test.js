@@ -82,7 +82,7 @@ test('changing schema property value', () => {
         targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
-        modifications: [
+        changes: [
           {
             jsonPath: '#/bar',
             before: 42,
@@ -134,7 +134,7 @@ test('removing schema property', () => {
             value: 42
           }
         ],
-        modifications: []
+        changes: []
       }
     ]
   })
@@ -180,7 +180,7 @@ test('adding schema property', () => {
           }
         ],
         deletions: [],
-        modifications: []
+        changes: []
       }
     ]
   })
@@ -435,7 +435,7 @@ test('modifying routes schema through ref', () => {
         targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
-        modifications: [
+        changes: [
           {
             jsonPath: '#/properties/bar/type',
             before: 'integer',
@@ -508,7 +508,7 @@ test('different $ref property values', () => {
         targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
-        modifications: [
+        changes: [
           {
             jsonPath: '#/$ref',
             before: '#/components/schemas/Bar1',
@@ -634,7 +634,7 @@ test('compare two different schemas with circular refs', () => {
         targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
-        modifications: [
+        changes: [
           {
             jsonPath: '#/properties/bar/type',
             before: 'integer',
@@ -793,7 +793,7 @@ test('compare two equal schemas with cross circular refs', () => {
         targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
-        modifications: [
+        changes: [
           {
             jsonPath: '#/properties/self/properties/bar/type',
             before: 'integer',

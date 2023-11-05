@@ -240,7 +240,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
     sameRoutes: ctx.sameOperations,
     addedRoutes: ctx.addedOperations,
     deletedRoutes: ctx.deletedOperations,
-    changesRoutes: ctx.changesOperations
+    changedRoutes: ctx.changesOperations
   }
 }
 
