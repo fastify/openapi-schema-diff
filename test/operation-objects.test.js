@@ -78,6 +78,8 @@ test('changing schema property value', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
         modifications: [
@@ -123,6 +125,8 @@ test('removing schema property', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [
           {
@@ -167,6 +171,8 @@ test('adding schema property', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [
           {
             jsonPath: '#/bar',
@@ -425,6 +431,8 @@ test('modifying routes schema through ref', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
         modifications: [
@@ -496,6 +504,8 @@ test('different $ref property values', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
         modifications: [
@@ -620,6 +630,8 @@ test('compare two different schemas with circular refs', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
         modifications: [
@@ -777,6 +789,8 @@ test('compare two equal schemas with cross circular refs', () => {
       {
         method: 'get',
         path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
         additions: [],
         deletions: [],
         modifications: [

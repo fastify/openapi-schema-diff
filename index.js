@@ -128,6 +128,8 @@ function compareOperationObjects (
     ctx.modifiedOperations.push({
       method,
       path,
+      sourceSchema: sourceOperationObject,
+      targetSchema: targetOperationObject,
       additions: routeSchemaDiff.additions,
       deletions: routeSchemaDiff.deletions,
       modifications: routeSchemaDiff.modifications
