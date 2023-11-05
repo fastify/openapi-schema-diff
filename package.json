@@ -21,6 +21,10 @@
   ],
   "author": "Ivan Tymoshenko <ivan@tymoshenko.me>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fastify/openapi-schema-diff/issues"
+  },
+  "homepage": "https://github.com/fastify/openapi-schema-diff#readme",
   "dependencies": {
     "json-schema-ref-resolver": "^1.0.1",
     "semver": "^7.5.4"
