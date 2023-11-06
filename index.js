@@ -12,36 +12,33 @@ function compareJsonSchemas (
   sourceSchema,
   targetSchema,
   jsonPath,
-  derefJsonPath,
-  additions = [],
-  deletions = [],
-  changes = []
+  derefJsonPath
 ) {
-  if (ctx.schemasEquality[jsonPath]) {
-    return ctx.schemasEquality[jsonPath]
+  const changes = []
+  if (!sourceSchema && !targetSchema) {
+    return changes
   }
 
-  const result = {
-    isEqual: null,
-    additions: null,
-    deletions: null,
-    changes: null
+  if (ctx.changesCache[jsonPath]) {
+    return ctx.changesCache[jsonPath]
   }
-  ctx.schemasEquality[jsonPath] = result
+  ctx.changesCache[jsonPath] = changes
 
   const { sameKeys, addedKeys, removedKeys } = compareObjectKeys(sourceSchema, targetSchema)
 
   for (const key of addedKeys) {
-    additions.push({
+    changes.push({
       jsonPath: derefJsonPath + `/${key}`,
-      value: sourceSchema[key]
+      before: undefined,
+      after: sourceSchema[key]
     })
   }
 
   for (const key of removedKeys) {
-    deletions.push({
+    changes.push({
       jsonPath: derefJsonPath + `/${key}`,
-      value: targetSchema[key]
+      before: targetSchema[key],
+      after: undefined
     })
   }
 
@@ -66,35 +63,25 @@ function compareJsonSchemas (
       const newJsonPath = key === '$ref' ? jsonPath : jsonPath + `/${key}`
       const newDerefJsonPath = key === '$ref' ? derefJsonPath : derefJsonPath + `/${key}`
 
-      compareJsonSchemas(
+      const keyChanges = compareJsonSchemas(
         ctx,
         sourceValue,
         targetValue,
         newJsonPath,
         newDerefJsonPath,
-        additions,
-        deletions,
         changes
       )
-      continue
+      changes.push(...keyChanges)
+    } else {
+      changes.push({
+        jsonPath: derefJsonPath + `/${key}`,
+        before: targetValue,
+        after: sourceValue
+      })
     }
-    changes.push({
-      jsonPath: derefJsonPath + `/${key}`,
-      before: targetValue,
-      after: sourceValue
-    })
   }
 
-  result.isEqual =
-    additions.length === 0 &&
-    deletions.length === 0 &&
-    changes.length === 0
-
-  result.additions = additions
-  result.deletions = deletions
-  result.changes = changes
-
-  return result
+  return changes
 }
 
 function checkSchemaVersions (sourceSchemaVersion, targetSchemaVersion) {
@@ -109,6 +96,331 @@ function checkSchemaVersions (sourceSchemaVersion, targetSchemaVersion) {
   }
 }
 
+function compareParameterObjects (
+  ctx,
+  path,
+  method,
+  sourceParameterObjects,
+  targetParameterObjects
+) {
+  const changes = []
+
+  sourceParameterObjects = sourceParameterObjects || []
+  targetParameterObjects = targetParameterObjects || []
+
+  for (const sourceParameterObject of sourceParameterObjects) {
+    const sourceParameterName = sourceParameterObject.name
+    const sourceParameterIn = sourceParameterObject.in
+
+    const targetParameterObject = targetParameterObjects.find(
+      parameterObject =>
+        parameterObject.name === sourceParameterName &&
+        parameterObject.in === sourceParameterIn
+    )
+
+    if (targetParameterObject === undefined) {
+      changes.push({
+        type: 'parameter',
+        name: sourceParameterName,
+        in: sourceParameterIn,
+        schemaChanges: [
+          {
+            jsonPath: '#',
+            before: undefined,
+            after: sourceParameterObject.schema
+          }
+        ],
+        comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
+         ` has been added to ${method.toUpperCase()} "${path}" route`
+      })
+      continue
+    }
+
+    const parametersSchemaChanges = compareJsonSchemas(
+      ctx,
+      sourceParameterObject.schema,
+      targetParameterObject.schema,
+      `#/paths${path}/${method}/parameters/${sourceParameterName}`,
+      '#'
+    )
+
+    if (parametersSchemaChanges.length > 0) {
+      changes.push({
+        type: 'parameter',
+        name: sourceParameterName,
+        in: sourceParameterIn,
+        schemaChanges: parametersSchemaChanges,
+        comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
+          ` has been changed in ${method.toUpperCase()} "${path}" route`
+      })
+    }
+  }
+
+  for (const targetParameterObject of targetParameterObjects) {
+    const targetParameterName = targetParameterObject.name
+    const targetParameterIn = targetParameterObject.in
+
+    const sourceParameterObject = sourceParameterObjects.find(
+      parameterObject =>
+        parameterObject.name === targetParameterName &&
+        parameterObject.in === targetParameterIn
+    )
+
+    if (sourceParameterObject === undefined) {
+      changes.push({
+        type: 'parameter',
+        name: targetParameterName,
+        in: targetParameterIn,
+        schemaChanges: [
+          {
+            jsonPath: '#',
+            before: targetParameterObject.schema,
+            after: undefined
+          }
+        ],
+        comment: `${targetParameterIn} parameter "${targetParameterName}"` +
+          ` has been deleted from ${method.toUpperCase()} "${path}" route`
+      })
+      continue
+    }
+  }
+
+  return changes
+}
+
+function compareRequestBodyObjects (
+  ctx,
+  path,
+  method,
+  sourceRequestBodyObject,
+  targetRequestBodyObject
+) {
+  const changes = []
+
+  const sourceRequestBodyContent = sourceRequestBodyObject?.content || {}
+  const targetRequestBodyContent = targetRequestBodyObject?.content || {}
+
+  const { sameKeys, addedKeys, removedKeys } = compareObjectKeys(
+    sourceRequestBodyContent,
+    targetRequestBodyContent
+  )
+
+  for (const mediaType of addedKeys) {
+    const requestBodyObject = sourceRequestBodyContent[mediaType]
+    changes.push({
+      type: 'requestBody',
+      mediaType,
+      schemaChanges: [
+        {
+          jsonPath: '#',
+          before: undefined,
+          after: requestBodyObject.schema
+        }
+      ],
+      comment: `request body for "${mediaType}" media type` +
+        ` has been added to ${method.toUpperCase()} "${path}" route`
+    })
+  }
+
+  for (const mediaType of removedKeys) {
+    const requestBodyObject = targetRequestBodyContent[mediaType]
+    changes.push({
+      type: 'requestBody',
+      mediaType,
+      schemaChanges: [
+        {
+          jsonPath: '#',
+          before: requestBodyObject.schema,
+          after: undefined
+        }
+      ],
+      comment: `request body for "${mediaType}" media type` +
+        ` has been deleted from ${method.toUpperCase()} "${path}" route`
+    })
+  }
+
+  for (const mediaType of sameKeys) {
+    const sourceRequestBodyObject = sourceRequestBodyContent[mediaType]
+    const targetRequestBodyObject = targetRequestBodyContent[mediaType]
+
+    const requestBodySchemaChanges = compareJsonSchemas(
+      ctx,
+      sourceRequestBodyObject.schema,
+      targetRequestBodyObject.schema,
+      `#/paths${path}/${method}/requestBody/content/${mediaType}`,
+      '#'
+    )
+
+    if (requestBodySchemaChanges.length > 0) {
+      changes.push({
+        type: 'requestBody',
+        mediaType,
+        schemaChanges: requestBodySchemaChanges,
+        comment: `request body for "${mediaType}" media type` +
+          ` has been changed in ${method.toUpperCase()} "${path}" route`
+      })
+    }
+  }
+
+  return changes
+}
+
+function compareResponseObjects (
+  ctx,
+  path,
+  method,
+  sourceResponseObjects,
+  targetResponseObjects
+) {
+  const changes = []
+
+  if (sourceResponseObjects == null && targetResponseObjects == null) {
+    return changes
+  }
+
+  for (const statusCode of Object.keys(sourceResponseObjects || {})) {
+    const sourceResponseObject = sourceResponseObjects[statusCode]
+    const targetResponseObject = targetResponseObjects?.[statusCode]
+
+    for (const header of Object.keys(sourceResponseObject.headers || {})) {
+      const sourceHeaderObject = sourceResponseObject.headers[header]
+      const targetHeaderObject = targetResponseObject?.headers?.[header]
+
+      if (!targetHeaderObject) {
+        changes.push({
+          type: 'responseHeader',
+          statusCode,
+          header,
+          schemaChanges: [
+            {
+              jsonPath: '#',
+              before: undefined,
+              after: sourceHeaderObject.schema
+            }
+          ],
+          comment: `response header for "${statusCode}" status code` +
+            ` has been added to ${method.toUpperCase()} "${path}" route`
+        })
+        continue
+      }
+
+      const headerObjectSchemaChanges = compareJsonSchemas(
+        ctx,
+        sourceHeaderObject.schema,
+        targetHeaderObject.schema,
+        `#/paths${path}/${method}/responses/${statusCode}/headers/${header}`,
+        '#'
+      )
+
+      if (headerObjectSchemaChanges.length > 0) {
+        changes.push({
+          type: 'responseHeader',
+          statusCode,
+          header,
+          schemaChanges: headerObjectSchemaChanges,
+          comment: `response header for "${statusCode}" status code` +
+            ` has been changed in ${method.toUpperCase()} "${path}" route`
+        })
+      }
+    }
+
+    for (const mediaType of Object.keys(sourceResponseObject.content || {})) {
+      const sourceMediaTypeObject = sourceResponseObject.content[mediaType]
+      const targetMediaTypeObject = targetResponseObject?.content?.[mediaType]
+
+      if (!targetMediaTypeObject) {
+        changes.push({
+          type: 'responseBody',
+          statusCode,
+          mediaType,
+          schemaChanges: [
+            {
+              jsonPath: '#',
+              before: undefined,
+              after: sourceMediaTypeObject.schema
+            }
+          ],
+          comment: `response body for "${statusCode}" "${mediaType}" ` +
+            `has been added to ${method.toUpperCase()} "${path}" route`
+        })
+        continue
+      }
+
+      const mediaTypeSchemaChanges = compareJsonSchemas(
+        ctx,
+        sourceMediaTypeObject.schema,
+        targetMediaTypeObject.schema,
+        `#/paths${path}/${method}/responses/${statusCode}/content/${mediaType}`,
+        '#'
+      )
+
+      if (mediaTypeSchemaChanges.length > 0) {
+        changes.push({
+          type: 'responseBody',
+          statusCode,
+          mediaType,
+          schemaChanges: mediaTypeSchemaChanges,
+          comment: `response body for "${statusCode}" "${mediaType}"` +
+            ` has been changed in ${method.toUpperCase()} "${path}" route`
+        })
+      }
+    }
+  }
+
+  for (const statusCode of Object.keys(targetResponseObjects || {})) {
+    const targetResponseObject = targetResponseObjects[statusCode]
+    const sourceResponseObject = sourceResponseObjects?.[statusCode]
+
+    for (const header of Object.keys(targetResponseObject.headers || {})) {
+      const targetHeaderObject = targetResponseObject.headers[header]
+      const sourceHeaderObject = sourceResponseObject?.headers?.[header]
+
+      if (!sourceHeaderObject) {
+        changes.push({
+          type: 'responseHeader',
+          statusCode,
+          header,
+          schemaChanges: [
+            {
+              jsonPath: '#',
+              before: targetHeaderObject.schema,
+              after: undefined
+            }
+          ],
+          comment: `response header for "${statusCode}" status code` +
+            ` has been deleted from ${method.toUpperCase()} "${path}" route`
+        })
+        continue
+      }
+    }
+
+    for (const mediaType of Object.keys(targetResponseObject.content || {})) {
+      const targetMediaTypeObject = targetResponseObject.content[mediaType]
+      const sourceMediaTypeObject = sourceResponseObject?.content?.[mediaType]
+
+      if (!sourceMediaTypeObject) {
+        changes.push({
+          type: 'responseBody',
+          statusCode,
+          mediaType,
+          schemaChanges: [
+            {
+              jsonPath: '#',
+              before: targetMediaTypeObject.schema,
+              after: undefined
+            }
+          ],
+          comment: `response body for "${statusCode}" "${mediaType}" ` +
+            `has been deleted from ${method.toUpperCase()} "${path}" route`
+        })
+        continue
+      }
+    }
+  }
+
+  return changes
+}
+
 function compareOperationObjects (
   ctx,
   path,
@@ -116,27 +428,50 @@ function compareOperationObjects (
   sourceOperationObject,
   targetOperationObject
 ) {
-  const routeSchemaDiff = compareJsonSchemas(
+  const parameterObjectsChanges = compareParameterObjects(
     ctx,
-    sourceOperationObject,
-    targetOperationObject,
-    `#/paths${path}/${method}`,
-    '#'
+    path,
+    method,
+    sourceOperationObject.parameters,
+    targetOperationObject.parameters
   )
 
-  if (routeSchemaDiff.isEqual === false) {
-    ctx.changesOperations.push({
-      method,
-      path,
-      sourceSchema: sourceOperationObject,
-      targetSchema: targetOperationObject,
-      additions: routeSchemaDiff.additions,
-      deletions: routeSchemaDiff.deletions,
-      changes: routeSchemaDiff.changes
-    })
-  } else {
+  const requestBodyObjectsChanges = compareRequestBodyObjects(
+    ctx,
+    path,
+    method,
+    sourceOperationObject.requestBody,
+    targetOperationObject.requestBody
+  )
+
+  const responseObjectsChanges = compareResponseObjects(
+    ctx,
+    path,
+    method,
+    sourceOperationObject.responses,
+    targetOperationObject.responses
+  )
+
+  if (
+    parameterObjectsChanges.length === 0 &&
+    requestBodyObjectsChanges.length === 0 &&
+    responseObjectsChanges.length === 0
+  ) {
     ctx.sameOperations.push({ method, path, schema: sourceOperationObject })
+    return
   }
+
+  ctx.changesOperations.push({
+    method,
+    path,
+    sourceSchema: sourceOperationObject,
+    targetSchema: targetOperationObject,
+    changes: [
+      ...parameterObjectsChanges,
+      ...requestBodyObjectsChanges,
+      ...responseObjectsChanges
+    ]
+  })
 }
 
 function comparePathObjects (ctx, path, sourcePathObject, targetPathObject) {
@@ -215,7 +550,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
   checkSchemaVersions(sourceSchema.openapi, targetSchema.openapi)
 
   const ctx = {
-    schemasEquality: {},
+    changesCache: {},
     sourceSchemaId: randomUUID(),
     targetSchemaId: randomUUID(),
     sourceRefResolver: new RefResolver(),
