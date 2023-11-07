@@ -39,7 +39,8 @@ test('removing a route', () => {
       {
         method: 'get',
         path: '/foo1',
-        schema: source.paths['/foo1'].get
+        sourceSchema: source.paths['/foo1'].get,
+        targetSchema: target.paths['/foo1'].get
       }
     ],
     addedRoutes: [],
@@ -47,7 +48,7 @@ test('removing a route', () => {
       {
         method: 'get',
         path: '/foo2',
-        schema: source.paths['/foo2'].get
+        sourceSchema: source.paths['/foo2'].get
       }
     ],
     changedRoutes: []
@@ -100,7 +101,7 @@ test('removing an operation object', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: source.paths['/foo'].get
+        sourceSchema: source.paths['/foo'].get
       }
     ],
     changedRoutes: []

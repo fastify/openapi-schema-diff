@@ -457,7 +457,12 @@ function compareOperationObjects (
     requestBodyObjectsChanges.length === 0 &&
     responseObjectsChanges.length === 0
   ) {
-    ctx.sameOperations.push({ method, path, schema: sourceOperationObject })
+    ctx.sameOperations.push({
+      method,
+      path,
+      sourceSchema: sourceOperationObject,
+      targetSchema: targetOperationObject
+    })
     return
   }
 
@@ -484,14 +489,22 @@ function comparePathObjects (ctx, path, sourcePathObject, targetPathObject) {
     method = method.toLocaleLowerCase()
     if (!HTTP_METHODS.includes(method)) continue
     const targetOperationObject = targetPathObject[method]
-    ctx.addedOperations.push({ method, path, schema: targetOperationObject })
+    ctx.addedOperations.push({
+      method,
+      path,
+      targetSchema: targetOperationObject
+    })
   }
 
   for (let method of removedKeys) {
     method = method.toLocaleLowerCase()
     if (!HTTP_METHODS.includes(method)) continue
     const sourceOperationObject = sourcePathObject[method]
-    ctx.deletedOperations.push({ method, path, schema: sourceOperationObject })
+    ctx.deletedOperations.push({
+      method,
+      path,
+      sourceSchema: sourceOperationObject
+    })
   }
 
   for (let method of sameKeys) {
@@ -517,7 +530,11 @@ function comparePathsObjects (ctx, sourcePathsObjects, targetPathsObjects) {
       method = method.toLocaleLowerCase()
       if (!HTTP_METHODS.includes(method)) continue
       const operationSchema = pathSchema[method]
-      ctx.addedOperations.push({ method, path, schema: operationSchema })
+      ctx.addedOperations.push({
+        method,
+        path,
+        targetSchema: operationSchema
+      })
     }
   }
 
@@ -528,7 +545,11 @@ function comparePathsObjects (ctx, sourcePathsObjects, targetPathsObjects) {
       method = method.toLocaleLowerCase()
       if (!HTTP_METHODS.includes(method)) continue
       const operationSchema = pathSchema[method]
-      ctx.deletedOperations.push({ method, path, schema: operationSchema })
+      ctx.deletedOperations.push({
+        method,
+        path,
+        sourceSchema: operationSchema
+      })
     }
   }
 

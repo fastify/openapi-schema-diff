@@ -94,17 +94,20 @@ test('should not count summery and description properties', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: source.paths['/foo'].get
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get
       },
       {
         method: 'get',
         path: '/bar',
-        schema: source.paths['/bar'].get
+        sourceSchema: source.paths['/bar'].get,
+        targetSchema: target.paths['/bar'].get
       },
       {
         method: 'get',
         path: '/baz',
-        schema: source.paths['/baz'].get
+        sourceSchema: source.paths['/baz'].get,
+        targetSchema: target.paths['/baz'].get
       }
     ],
     addedRoutes: [],
@@ -181,45 +184,22 @@ test('should not count summery and description properties', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: {
-          responses: {
-            200: {
-              content: {
-                'application/json': {}
-              }
-            }
-          }
-        }
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get
       }
     ],
     addedRoutes: [
       {
         method: 'get',
         path: '/baz',
-        schema: {
-          responses: {
-            200: {
-              content: {
-                'application/json': {}
-              }
-            }
-          }
-        }
+        targetSchema: target.paths['/baz'].get
       }
     ],
     deletedRoutes: [
       {
         method: 'get',
         path: '/bar',
-        schema: {
-          responses: {
-            200: {
-              content: {
-                'application/json': {}
-              }
-            }
-          }
-        }
+        sourceSchema: source.paths['/bar'].get
       }
     ],
     changedRoutes: []

@@ -44,7 +44,7 @@ test('adding new route', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: target.paths['/foo'].get
+        targetSchema: target.paths['/foo'].get
       }
     ],
     deletedRoutes: [],
@@ -97,7 +97,7 @@ test('adding new operation object', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: target.paths['/foo'].get
+        targetSchema: target.paths['/foo'].get
       }
     ],
     deletedRoutes: [],

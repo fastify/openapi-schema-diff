@@ -38,7 +38,8 @@ test('compare two equal schemas', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: source.paths['/foo'].get
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get
       }
     ],
     addedRoutes: [],
