@@ -21,7 +21,7 @@ npm install openapi-schema-diff
 ```javascript
 const compareOpenApiSchemas = require('openapi-schema-diff')
 
-const schema1 = {
+const sourceSchema = {
   openapi: '3.0.0',
   info: {
     title: 'My API',
@@ -32,7 +32,7 @@ const schema1 = {
       get: {
         summary: 'Returns all pets',
         responses: {
-          '200': {
+          200: {
             description: 'A list of pets.',
             content: {
               'application/json': {
@@ -59,7 +59,7 @@ const schema1 = {
   }
 }
 
-const schema2 = {
+const targetSchema = {
   openapi: '3.0.0',
   info: {
     title: 'My API',
@@ -70,7 +70,7 @@ const schema2 = {
       get: {
         summary: 'Returns all pets',
         responses: {
-          '200': {
+          200: {
             description: 'A list of pets.',
             content: {
               'application/json': {
@@ -100,7 +100,7 @@ const schema2 = {
   }
 }
 
-const differences = compareOpenApiSchemas(schema1, schema2)
+const differences = compareOpenApiSchemas(sourceSchema, targetSchema)
 assert.deepEqual(differences, {
   isEqual: false,
   sameRoutes: [],
@@ -110,14 +110,25 @@ assert.deepEqual(differences, {
     {
       method: 'get',
       path: '/pets',
-      additions: [],
-      deletions: [
+      sourceSchema: sourceSchema.paths['/pets'].get,
+      targetSchema: targetSchema.paths['/pets'].get,
+      changes: [
         {
-          jsonPath: '#/responses/200/content/application/json/schema/items/properties/breed',
-          value: { type: 'string' }
+          type: 'responseBody',
+          statusCode: '200',
+          mediaType: 'application/json',
+          schemaChanges: [
+            {
+              jsonPath: '#/items/properties/breed',
+              source: undefined,
+              target: {
+                type: 'string'
+              }
+            }
+          ],
+          comment: 'response body for "200" "application/json" has been changed in GET "/pets" route'
         }
-      ],
-      changes: []
+      ]
     }
   ]
 })
