@@ -1,9 +1,11 @@
 # openapi-schema-diff
 
-__openapi-schema-diff__ is a javascript library that compares two OpenAPI schemas and returns the differences between them.
+__openapi-schema-diff__ is a javascript library that compares two OpenAPI schemas and finds breaking changes.
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [API](#api)
+  - [compare(sourceSchema, targetSchema)](#comparesourceSchema-targetSchema)
 - [License](#license)
 
 <a name="installation"></a>
@@ -134,7 +136,99 @@ assert.deepEqual(differences, {
 })
 ```
 
+<a name="api"></a>
+
+## API
+
+<a name="compare-openapi-schemas"></a>
+
+#### compare(sourceSchema, targetSchema)
+
+Compares two OpenAPI schemas and returns and finds breaking changes. Source and target schemas must have the same OpenAPI major version.
+
+- `sourceSchema` __\<object\>__ - source OpenAPI schema.
+- `targetSchema` __\<object\>__ - target OpenAPI schema.
+- __Returns__ - an object with schema differences.
+  - `isEqual` __\<boolean\>__ - `true` if target schema does not have breaking changes, `false` otherwise.
+  - `sameRoutes` __\<array\>__ - an array of routes that are present in both schemas and do not have breaking changes. See [same route](#same-route-object).
+  - `addedRoutes` __\<array\>__ - an array of routes that are present in target schema but not in source schema. See [added route](#added-route-object).
+  - `deletedRoutes` __\<array\>__ - an array of routes that are present in source schema but not in target schema. See [deleted route](#deleted-route-object).
+  - `changedRoutes` __\<array\>__ - an array of routes that are present in both schemas and have breaking changes. See [changed route](#changed-route-object).
+
+##### Same route object
+
+- `method` __\<string\>__ - HTTP method name of the route.
+- `path` __\<string\>__ - path of the route.
+- `sourceSchema` __\<object\>__ - source OpenAPI schema of the route.
+- `targetSchema` __\<object\>__ - target OpenAPI schema of the route.
+
+##### Added route object
+
+- `method` __\<string\>__ - HTTP method name of the route.
+- `path` __\<string\>__ - path of the route.
+- `targetSchema` __\<object\>__ - target OpenAPI schema of the route.
+
+##### Deleted route object
+
+- `method` __\<string\>__ - HTTP method name of the route.
+- `path` __\<string\>__ - path of the route.
+- `sourceSchema` __\<object\>__ - source OpenAPI schema of the route.
+
+##### Changed route object
+
+- `method` __\<string\>__ - HTTP method name of the route.
+- `path` __\<string\>__ - path of the route.
+- `sourceSchema` __\<object\>__ - source OpenAPI schema of the route.
+- `targetSchema` __\<object\>__ - target OpenAPI schema of the route.
+- `changes` __\<array\>__ - a list of route components (header, querystring, body, ...) that have breaking changes. See [change object](#change-object).
+
+##### Route change object
+
+- `type` __\<string\>__ - type of the component. One of `parameter`, `requestBody`, `responseBody`, `responseHeader`.
+- `schemaChanges` - a list of changes in a component json schema. See [schema change object](#schema-change-object).
+- `comment` __\<string\>__ - a comment describing the change.
+
+Each of the route components has it's own unique properties that identify it. For more details look at the component change object: [parameter](#parameter-change-object), [request body](#request-body-change-object), [response body](#response-body-change-object), [response header](#response-header-change-object).
+
+##### Schema change object
+
+- `jsonPath` __\<string\>__ - JSON path of the changed schema.
+- `source` __\<object\>__ - source subschema placed at the `jsonPath`.
+- `target` __\<object\>__ - target subschema placed at the `jsonPath`.
+
+##### Parameter change object
+
+- `type` __\<string\>__ - type of the component. Equals to `parameter`.
+- `name` __\<string\>__ - name of the parameter.
+- `in` __\<string\>__ - location of the parameter. One of `query`, `header`, `path`, `cookie`.
+- `schemaChanges` - a list of changes in a component json schema. See [schema change object](#schema-change-object).
+- `comment` __\<string\>__ - a comment describing the change.
+
+##### Request body change object
+
+- `type` __\<string\>__ - type of the component. Equals to `requestBody`.
+- `mediaType` __\<string\>__ - media type of the component.
+- `schemaChanges` - a list of changes in a component json schema. See [schema change object](#schema-change-object).
+- `comment` __\<string\>__ - a comment describing the change.
+
+##### Response body change object
+
+- `type` __\<string\>__ - type of the component. Equals to `responseBody`.
+- `statusCode` __\<string\>__ - HTTP status code of the component.
+- `mediaType` __\<string\>__ - media type of the component.
+- `schemaChanges` - a list of changes in a component json schema. See [schema change object](#schema-change-object).
+- `comment` __\<string\>__ - a comment describing the change.
+
+##### Response header change object
+
+- `type` __\<string\>__ - type of the component. Equals to `responseHeader`.
+- `header` __\<string\>__ - name of the header.
+- `statusCode` __\<string\>__ - HTTP status code of the component.
+- `schemaChanges` - a list of changes in a component json schema. See [schema change object](#schema-change-object).
+- `comment` __\<string\>__ - a comment describing the change.
+
 <a name="license"></a>
+
 ## License
 
 MIT
