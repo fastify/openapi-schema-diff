@@ -5,7 +5,7 @@ const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
 test('compare two equal schemas', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -29,7 +29,7 @@ test('compare two equal schemas', () => {
     }
   }
 
-  const source = target
+  const target = JSON.parse(JSON.stringify(source))
 
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {

@@ -5,7 +5,7 @@ const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
 test('modifying routes schema through ref', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -38,7 +38,7 @@ test('modifying routes schema through ref', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -104,7 +104,7 @@ test('modifying routes schema through ref', () => {
 })
 
 test('different $ref property values', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -137,7 +137,7 @@ test('different $ref property values', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -203,7 +203,7 @@ test('different $ref property values', () => {
 })
 
 test('compare two equal schemas with circular refs', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -239,7 +239,7 @@ test('compare two equal schemas with circular refs', () => {
     }
   }
 
-  const source = JSON.parse(JSON.stringify(target))
+  const target = JSON.parse(JSON.stringify(source))
 
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
@@ -258,7 +258,7 @@ test('compare two equal schemas with circular refs', () => {
 })
 
 test('compare two different schemas with circular refs', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -294,7 +294,7 @@ test('compare two different schemas with circular refs', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -363,7 +363,7 @@ test('compare two different schemas with circular refs', () => {
 })
 
 test('compare two equal schemas with cross circular refs', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -410,7 +410,7 @@ test('compare two equal schemas with cross circular refs', () => {
     }
   }
 
-  const source = JSON.parse(JSON.stringify(target))
+  const target = JSON.parse(JSON.stringify(source))
 
   const diff = compareOpenApiSchemas(source, target)
   assert.deepStrictEqual(diff, {
@@ -429,7 +429,7 @@ test('compare two equal schemas with cross circular refs', () => {
 })
 
 test('compare two different schemas with cross circular refs', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     components: {
       schemas: {
@@ -476,7 +476,7 @@ test('compare two different schemas with cross circular refs', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     components: {
       schemas: {

@@ -30,14 +30,14 @@ function compareJsonSchemas (
     changes.push({
       jsonPath: derefJsonPath + `/${key}`,
       before: undefined,
-      after: sourceSchema[key]
+      after: targetSchema[key]
     })
   }
 
   for (const key of removedKeys) {
     changes.push({
       jsonPath: derefJsonPath + `/${key}`,
-      before: targetSchema[key],
+      before: sourceSchema[key],
       after: undefined
     })
   }
@@ -75,8 +75,8 @@ function compareJsonSchemas (
     } else {
       changes.push({
         jsonPath: derefJsonPath + `/${key}`,
-        before: targetValue,
-        after: sourceValue
+        before: sourceValue,
+        after: targetValue
       })
     }
   }
@@ -108,54 +108,6 @@ function compareParameterObjects (
   sourceParameterObjects = sourceParameterObjects || []
   targetParameterObjects = targetParameterObjects || []
 
-  for (const sourceParameterObject of sourceParameterObjects) {
-    const sourceParameterName = sourceParameterObject.name
-    const sourceParameterIn = sourceParameterObject.in
-
-    const targetParameterObject = targetParameterObjects.find(
-      parameterObject =>
-        parameterObject.name === sourceParameterName &&
-        parameterObject.in === sourceParameterIn
-    )
-
-    if (targetParameterObject === undefined) {
-      changes.push({
-        type: 'parameter',
-        name: sourceParameterName,
-        in: sourceParameterIn,
-        schemaChanges: [
-          {
-            jsonPath: '#',
-            before: undefined,
-            after: sourceParameterObject.schema
-          }
-        ],
-        comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
-         ` has been added to ${method.toUpperCase()} "${path}" route`
-      })
-      continue
-    }
-
-    const parametersSchemaChanges = compareJsonSchemas(
-      ctx,
-      sourceParameterObject.schema,
-      targetParameterObject.schema,
-      `#/paths${path}/${method}/parameters/${sourceParameterName}`,
-      '#'
-    )
-
-    if (parametersSchemaChanges.length > 0) {
-      changes.push({
-        type: 'parameter',
-        name: sourceParameterName,
-        in: sourceParameterIn,
-        schemaChanges: parametersSchemaChanges,
-        comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
-          ` has been changed in ${method.toUpperCase()} "${path}" route`
-      })
-    }
-  }
-
   for (const targetParameterObject of targetParameterObjects) {
     const targetParameterName = targetParameterObject.name
     const targetParameterIn = targetParameterObject.in
@@ -174,11 +126,59 @@ function compareParameterObjects (
         schemaChanges: [
           {
             jsonPath: '#',
-            before: targetParameterObject.schema,
-            after: undefined
+            before: undefined,
+            after: targetParameterObject.schema
           }
         ],
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
+         ` has been added to ${method.toUpperCase()} "${path}" route`
+      })
+      continue
+    }
+
+    const parametersSchemaChanges = compareJsonSchemas(
+      ctx,
+      sourceParameterObject.schema,
+      targetParameterObject.schema,
+      `#/paths${path}/${method}/parameters/${targetParameterName}`,
+      '#'
+    )
+
+    if (parametersSchemaChanges.length > 0) {
+      changes.push({
+        type: 'parameter',
+        name: targetParameterName,
+        in: targetParameterIn,
+        schemaChanges: parametersSchemaChanges,
+        comment: `${targetParameterIn} parameter "${targetParameterName}"` +
+          ` has been changed in ${method.toUpperCase()} "${path}" route`
+      })
+    }
+  }
+
+  for (const sourceParameterObject of sourceParameterObjects) {
+    const sourceParameterName = sourceParameterObject.name
+    const sourceParameterIn = sourceParameterObject.in
+
+    const targetParameterObject = targetParameterObjects.find(
+      parameterObject =>
+        parameterObject.name === sourceParameterName &&
+        parameterObject.in === sourceParameterIn
+    )
+
+    if (targetParameterObject === undefined) {
+      changes.push({
+        type: 'parameter',
+        name: sourceParameterName,
+        in: sourceParameterIn,
+        schemaChanges: [
+          {
+            jsonPath: '#',
+            before: sourceParameterObject.schema,
+            after: undefined
+          }
+        ],
+        comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
           ` has been deleted from ${method.toUpperCase()} "${path}" route`
       })
       continue
@@ -206,7 +206,7 @@ function compareRequestBodyObjects (
   )
 
   for (const mediaType of addedKeys) {
-    const requestBodyObject = sourceRequestBodyContent[mediaType]
+    const requestBodyObject = targetRequestBodyContent[mediaType]
     changes.push({
       type: 'requestBody',
       mediaType,
@@ -223,7 +223,7 @@ function compareRequestBodyObjects (
   }
 
   for (const mediaType of removedKeys) {
-    const requestBodyObject = targetRequestBodyContent[mediaType]
+    const requestBodyObject = sourceRequestBodyContent[mediaType]
     changes.push({
       type: 'requestBody',
       mediaType,
@@ -278,15 +278,15 @@ function compareResponseObjects (
     return changes
   }
 
-  for (const statusCode of Object.keys(sourceResponseObjects || {})) {
-    const sourceResponseObject = sourceResponseObjects[statusCode]
-    const targetResponseObject = targetResponseObjects?.[statusCode]
+  for (const statusCode of Object.keys(targetResponseObjects || {})) {
+    const targetResponseObject = targetResponseObjects[statusCode]
+    const sourceResponseObject = sourceResponseObjects?.[statusCode]
 
-    for (const header of Object.keys(sourceResponseObject.headers || {})) {
-      const sourceHeaderObject = sourceResponseObject.headers[header]
-      const targetHeaderObject = targetResponseObject?.headers?.[header]
+    for (const header of Object.keys(targetResponseObject.headers || {})) {
+      const targetHeaderObject = targetResponseObject.headers[header]
+      const sourceHeaderObject = sourceResponseObject?.headers?.[header]
 
-      if (!targetHeaderObject) {
+      if (!sourceHeaderObject) {
         changes.push({
           type: 'responseHeader',
           statusCode,
@@ -295,7 +295,7 @@ function compareResponseObjects (
             {
               jsonPath: '#',
               before: undefined,
-              after: sourceHeaderObject.schema
+              after: targetHeaderObject.schema
             }
           ],
           comment: `response header for "${statusCode}" status code` +
@@ -324,11 +324,11 @@ function compareResponseObjects (
       }
     }
 
-    for (const mediaType of Object.keys(sourceResponseObject.content || {})) {
-      const sourceMediaTypeObject = sourceResponseObject.content[mediaType]
-      const targetMediaTypeObject = targetResponseObject?.content?.[mediaType]
+    for (const mediaType of Object.keys(targetResponseObject.content || {})) {
+      const targetMediaTypeObject = targetResponseObject.content[mediaType]
+      const sourceMediaTypeObject = sourceResponseObject?.content?.[mediaType]
 
-      if (!targetMediaTypeObject) {
+      if (!sourceMediaTypeObject) {
         changes.push({
           type: 'responseBody',
           statusCode,
@@ -337,7 +337,7 @@ function compareResponseObjects (
             {
               jsonPath: '#',
               before: undefined,
-              after: sourceMediaTypeObject.schema
+              after: targetMediaTypeObject.schema
             }
           ],
           comment: `response body for "${statusCode}" "${mediaType}" ` +
@@ -367,15 +367,15 @@ function compareResponseObjects (
     }
   }
 
-  for (const statusCode of Object.keys(targetResponseObjects || {})) {
-    const targetResponseObject = targetResponseObjects[statusCode]
-    const sourceResponseObject = sourceResponseObjects?.[statusCode]
+  for (const statusCode of Object.keys(sourceResponseObjects || {})) {
+    const sourceResponseObject = sourceResponseObjects[statusCode]
+    const targetResponseObject = targetResponseObjects?.[statusCode]
 
-    for (const header of Object.keys(targetResponseObject.headers || {})) {
-      const targetHeaderObject = targetResponseObject.headers[header]
-      const sourceHeaderObject = sourceResponseObject?.headers?.[header]
+    for (const header of Object.keys(sourceResponseObject.headers || {})) {
+      const sourceHeaderObject = sourceResponseObject.headers[header]
+      const targetHeaderObject = targetResponseObject?.headers?.[header]
 
-      if (!sourceHeaderObject) {
+      if (!targetHeaderObject) {
         changes.push({
           type: 'responseHeader',
           statusCode,
@@ -383,7 +383,7 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: targetHeaderObject.schema,
+              before: sourceHeaderObject.schema,
               after: undefined
             }
           ],
@@ -394,11 +394,11 @@ function compareResponseObjects (
       }
     }
 
-    for (const mediaType of Object.keys(targetResponseObject.content || {})) {
-      const targetMediaTypeObject = targetResponseObject.content[mediaType]
-      const sourceMediaTypeObject = sourceResponseObject?.content?.[mediaType]
+    for (const mediaType of Object.keys(sourceResponseObject.content || {})) {
+      const sourceMediaTypeObject = sourceResponseObject.content[mediaType]
+      const targetMediaTypeObject = targetResponseObject?.content?.[mediaType]
 
-      if (!sourceMediaTypeObject) {
+      if (!targetMediaTypeObject) {
         changes.push({
           type: 'responseBody',
           statusCode,
@@ -406,7 +406,7 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: targetMediaTypeObject.schema,
+              before: sourceMediaTypeObject.schema,
               after: undefined
             }
           ],
@@ -483,15 +483,15 @@ function comparePathObjects (ctx, path, sourcePathObject, targetPathObject) {
   for (let method of addedKeys) {
     method = method.toLocaleLowerCase()
     if (!HTTP_METHODS.includes(method)) continue
-    const sourceOperationObject = sourcePathObject[method]
-    ctx.addedOperations.push({ method, path, schema: sourceOperationObject })
+    const targetOperationObject = targetPathObject[method]
+    ctx.addedOperations.push({ method, path, schema: targetOperationObject })
   }
 
   for (let method of removedKeys) {
     method = method.toLocaleLowerCase()
     if (!HTTP_METHODS.includes(method)) continue
-    const targetOperationObject = targetPathObject[method]
-    ctx.deletedOperations.push({ method, path, schema: targetOperationObject })
+    const sourceOperationObject = sourcePathObject[method]
+    ctx.deletedOperations.push({ method, path, schema: sourceOperationObject })
   }
 
   for (let method of sameKeys) {
@@ -511,7 +511,7 @@ function comparePathsObjects (ctx, sourcePathsObjects, targetPathsObjects) {
   )
 
   for (const path of addedKeys) {
-    const pathSchema = sourcePathsObjects[path]
+    const pathSchema = targetPathsObjects[path]
     // TODO: check for $ref here
     for (let method of Object.keys(pathSchema)) {
       method = method.toLocaleLowerCase()
@@ -522,7 +522,7 @@ function comparePathsObjects (ctx, sourcePathsObjects, targetPathsObjects) {
   }
 
   for (const path of removedKeys) {
-    const pathSchema = targetPathsObjects[path]
+    const pathSchema = sourcePathsObjects[path]
     // TODO: check for $ref here
     for (let method in pathSchema) {
       method = method.toLocaleLowerCase()

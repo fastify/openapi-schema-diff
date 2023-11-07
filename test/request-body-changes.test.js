@@ -5,7 +5,7 @@ const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
 test('adding request body schema property value', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -14,7 +14,7 @@ test('adding request body schema property value', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -77,7 +77,7 @@ test('adding request body schema property value', () => {
 })
 
 test('changing request body schema property value', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -101,7 +101,7 @@ test('changing request body schema property value', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -157,7 +157,7 @@ test('changing request body schema property value', () => {
 })
 
 test('removing request body schema property value', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -181,7 +181,7 @@ test('removing request body schema property value', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {

@@ -5,7 +5,7 @@ const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
 test('adding response body schema', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -14,7 +14,7 @@ test('adding response body schema', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -80,7 +80,7 @@ test('adding response body schema', () => {
 })
 
 test('adding response body schema for status code', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -93,7 +93,7 @@ test('adding response body schema for status code', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -159,7 +159,7 @@ test('adding response body schema for status code', () => {
 })
 
 test('removing response body schemas', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -185,7 +185,7 @@ test('removing response body schemas', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -234,7 +234,7 @@ test('removing response body schemas', () => {
 })
 
 test('removing response body schema for status code', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -260,7 +260,7 @@ test('removing response body schema for status code', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -313,7 +313,7 @@ test('removing response body schema for status code', () => {
 })
 
 test('adding response body schema property', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -334,7 +334,7 @@ test('adding response body schema property', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -397,7 +397,7 @@ test('adding response body schema property', () => {
 })
 
 test('removing schema property', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -423,7 +423,7 @@ test('removing schema property', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -481,7 +481,7 @@ test('removing schema property', () => {
 })
 
 test('adding schema property', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -507,7 +507,7 @@ test('adding schema property', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {

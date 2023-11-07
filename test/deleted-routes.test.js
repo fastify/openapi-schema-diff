@@ -5,7 +5,7 @@ const { test } = require('node:test')
 const compareOpenApiSchemas = require('../index.js')
 
 test('removing a route', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo1': {
@@ -21,7 +21,7 @@ test('removing a route', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo1': {
@@ -47,7 +47,7 @@ test('removing a route', () => {
       {
         method: 'get',
         path: '/foo2',
-        schema: target.paths['/foo2'].get
+        schema: source.paths['/foo2'].get
       }
     ],
     changedRoutes: []
@@ -55,7 +55,7 @@ test('removing a route', () => {
 })
 
 test('removing an operation object', () => {
-  const target = {
+  const source = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -82,7 +82,7 @@ test('removing an operation object', () => {
     }
   }
 
-  const source = {
+  const target = {
     openapi: '1.0.0',
     paths: {
       '/foo': {
@@ -100,7 +100,7 @@ test('removing an operation object', () => {
       {
         method: 'get',
         path: '/foo',
-        schema: target.paths['/foo'].get
+        schema: source.paths['/foo'].get
       }
     ],
     changedRoutes: []
