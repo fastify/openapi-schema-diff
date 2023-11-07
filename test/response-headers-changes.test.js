@@ -59,8 +59,8 @@ test('adding response header schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   type: 'integer'
                 }
               }
@@ -128,10 +128,10 @@ test('removing response header schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: {
+                source: {
                   type: 'integer'
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'response header for "200" status code has been deleted from GET "/foo" route'
@@ -205,8 +205,8 @@ test('changing response header schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'response header for "200" status code has been changed in GET "/foo" route'

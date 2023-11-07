@@ -51,8 +51,8 @@ test('adding request query schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   type: 'string'
                 }
               }
@@ -120,8 +120,8 @@ test('changing request header schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'header parameter "bar" has been changed in GET "/foo" route'
@@ -179,10 +179,10 @@ test('removing request path param schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: {
+                source: {
                   type: 'string'
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'path parameter "bar" has been deleted from GET "/foo" route'

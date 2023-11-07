@@ -91,8 +91,8 @@ test('modifying routes schema through ref', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties/bar/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -190,8 +190,8 @@ test('different $ref property values', () => {
             schemaChanges: [
               {
                 jsonPath: '#/$ref',
-                before: '#/components/schemas/Bar1',
-                after: '#/components/schemas/Bar2'
+                source: '#/components/schemas/Bar1',
+                target: '#/components/schemas/Bar2'
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -350,8 +350,8 @@ test('compare two different schemas with circular refs', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties/bar/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -543,8 +543,8 @@ test('compare two different schemas with cross circular refs', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties/bar/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'

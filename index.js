@@ -29,16 +29,16 @@ function compareJsonSchemas (
   for (const key of addedKeys) {
     changes.push({
       jsonPath: derefJsonPath + `/${key}`,
-      before: undefined,
-      after: targetSchema[key]
+      source: undefined,
+      target: targetSchema[key]
     })
   }
 
   for (const key of removedKeys) {
     changes.push({
       jsonPath: derefJsonPath + `/${key}`,
-      before: sourceSchema[key],
-      after: undefined
+      source: sourceSchema[key],
+      target: undefined
     })
   }
 
@@ -75,8 +75,8 @@ function compareJsonSchemas (
     } else {
       changes.push({
         jsonPath: derefJsonPath + `/${key}`,
-        before: sourceValue,
-        after: targetValue
+        source: sourceValue,
+        target: targetValue
       })
     }
   }
@@ -126,8 +126,8 @@ function compareParameterObjects (
         schemaChanges: [
           {
             jsonPath: '#',
-            before: undefined,
-            after: targetParameterObject.schema
+            source: undefined,
+            target: targetParameterObject.schema
           }
         ],
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
@@ -174,8 +174,8 @@ function compareParameterObjects (
         schemaChanges: [
           {
             jsonPath: '#',
-            before: sourceParameterObject.schema,
-            after: undefined
+            source: sourceParameterObject.schema,
+            target: undefined
           }
         ],
         comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
@@ -213,8 +213,8 @@ function compareRequestBodyObjects (
       schemaChanges: [
         {
           jsonPath: '#',
-          before: undefined,
-          after: requestBodyObject.schema
+          source: undefined,
+          target: requestBodyObject.schema
         }
       ],
       comment: `request body for "${mediaType}" media type` +
@@ -230,8 +230,8 @@ function compareRequestBodyObjects (
       schemaChanges: [
         {
           jsonPath: '#',
-          before: requestBodyObject.schema,
-          after: undefined
+          source: requestBodyObject.schema,
+          target: undefined
         }
       ],
       comment: `request body for "${mediaType}" media type` +
@@ -294,8 +294,8 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: undefined,
-              after: targetHeaderObject.schema
+              source: undefined,
+              target: targetHeaderObject.schema
             }
           ],
           comment: `response header for "${statusCode}" status code` +
@@ -336,8 +336,8 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: undefined,
-              after: targetMediaTypeObject.schema
+              source: undefined,
+              target: targetMediaTypeObject.schema
             }
           ],
           comment: `response body for "${statusCode}" "${mediaType}" ` +
@@ -383,8 +383,8 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: sourceHeaderObject.schema,
-              after: undefined
+              source: sourceHeaderObject.schema,
+              target: undefined
             }
           ],
           comment: `response header for "${statusCode}" status code` +
@@ -406,8 +406,8 @@ function compareResponseObjects (
           schemaChanges: [
             {
               jsonPath: '#',
-              before: sourceMediaTypeObject.schema,
-              after: undefined
+              source: sourceMediaTypeObject.schema,
+              target: undefined
             }
           ],
           comment: `response body for "${statusCode}" "${mediaType}" ` +

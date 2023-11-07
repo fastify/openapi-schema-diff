@@ -60,8 +60,8 @@ test('adding response body schema', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -139,8 +139,8 @@ test('adding response body schema for status code', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -214,7 +214,7 @@ test('removing response body schemas', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: {
+                source: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -222,7 +222,7 @@ test('removing response body schemas', () => {
                     }
                   }
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
@@ -293,7 +293,7 @@ test('removing response body schema for status code', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: {
+                source: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -301,7 +301,7 @@ test('removing response body schema for status code', () => {
                     }
                   }
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
@@ -380,8 +380,8 @@ test('adding response body schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   bar: {
                     type: 'integer'
                   }
@@ -464,12 +464,12 @@ test('removing schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties',
-                before: {
+                source: {
                   bar: {
                     type: 'integer'
                   }
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -548,12 +548,12 @@ test('adding schema property', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties',
-                before: {
+                source: {
                   bar: {
                     type: 'integer'
                   }
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'

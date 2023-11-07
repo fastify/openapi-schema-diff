@@ -57,8 +57,8 @@ test('adding request body schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: undefined,
-                after: {
+                source: undefined,
+                target: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -144,8 +144,8 @@ test('changing request body schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#/properties/bar/type',
-                before: 'integer',
-                after: 'string'
+                source: 'integer',
+                target: 'string'
               }
             ],
             comment: 'request body for "application/json" media type has been changed in GET "/foo" route'
@@ -209,7 +209,7 @@ test('removing request body schema property value', () => {
             schemaChanges: [
               {
                 jsonPath: '#',
-                before: {
+                source: {
                   type: 'object',
                   properties: {
                     bar: {
@@ -217,7 +217,7 @@ test('removing request body schema property value', () => {
                     }
                   }
                 },
-                after: undefined
+                target: undefined
               }
             ],
             comment: 'request body for "application/json" media type has been deleted from GET "/foo" route'
