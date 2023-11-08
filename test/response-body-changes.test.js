@@ -58,25 +58,8 @@ test('adding response body schema', () => {
             action: 'added',
             statusCode: '200',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: undefined,
-                    target: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'integer'
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            sourceSchema: undefined,
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             comment: 'response body for "200" "application/json" has been added to GET "/foo" route'
           }
         ]
@@ -143,25 +126,8 @@ test('adding response body schema for status code', () => {
             action: 'added',
             statusCode: '200',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: undefined,
-                    target: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'integer'
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            sourceSchema: undefined,
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             comment: 'response body for "200" "application/json" has been added to GET "/foo" route'
           }
         ]
@@ -224,25 +190,8 @@ test('removing response body schemas', () => {
             action: 'deleted',
             statusCode: '200',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    target: undefined
-                  }
-                ]
-              }
-            ],
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: undefined,
             comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
           }
         ]
@@ -306,28 +255,11 @@ test('removing response body schema for status code', () => {
         changes: [
           {
             type: 'responseBody',
-            action: 'deleted',
             statusCode: '200',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'integer'
-                        }
-                      }
-                    },
-                    target: undefined
-                  }
-                ]
-              }
-            ],
+            action: 'deleted',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: undefined,
             comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
           }
         ]
@@ -402,6 +334,8 @@ test('adding response body schema property', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -489,9 +423,11 @@ test('removing schema property', () => {
         changes: [
           {
             type: 'responseBody',
-            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            action: 'changed',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -582,6 +518,8 @@ test('adding schema property', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',

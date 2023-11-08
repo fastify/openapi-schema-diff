@@ -89,6 +89,8 @@ test('modifying routes schema through ref', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -194,6 +196,8 @@ test('different $ref property values', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -361,6 +365,8 @@ test('compare two different schemas with circular refs', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -561,6 +567,8 @@ test('compare two different schemas with cross circular refs', () => {
             action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
+            sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
+            targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
             changes: [
               {
                 keyword: 'schema',

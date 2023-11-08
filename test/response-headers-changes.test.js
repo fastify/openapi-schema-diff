@@ -54,23 +54,11 @@ test('adding response header schema property', () => {
         changes: [
           {
             type: 'responseHeader',
-            action: 'added',
             statusCode: '200',
             header: 'x-header-foo',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: undefined,
-                    target: {
-                      type: 'integer'
-                    }
-                  }
-                ]
-              }
-            ],
+            action: 'added',
+            sourceSchema: undefined,
+            targetSchema: target.paths['/foo'].get.responses['200'].headers['x-header-foo'],
             comment: 'response header for "200" status code has been added to GET "/foo" route'
           }
         ]
@@ -129,23 +117,11 @@ test('removing response header schema property', () => {
         changes: [
           {
             type: 'responseHeader',
-            action: 'deleted',
             statusCode: '200',
             header: 'x-header-foo',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: {
-                      type: 'integer'
-                    },
-                    target: undefined
-                  }
-                ]
-              }
-            ],
+            action: 'deleted',
+            sourceSchema: source.paths['/foo'].get.responses['200'].headers['x-header-foo'],
+            targetSchema: undefined,
             comment: 'response header for "200" status code has been deleted from GET "/foo" route'
           }
         ]
@@ -215,6 +191,8 @@ test('changing response header schema property', () => {
             action: 'changed',
             statusCode: '200',
             header: 'x-header-foo',
+            sourceSchema: source.paths['/foo'].get.responses['200'].headers['x-header-foo'],
+            targetSchema: target.paths['/foo'].get.responses['200'].headers['x-header-foo'],
             changes: [
               {
                 keyword: 'schema',

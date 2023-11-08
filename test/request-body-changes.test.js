@@ -53,27 +53,10 @@ test('adding request body schema property value', () => {
         changes: [
           {
             type: 'requestBody',
-            action: 'added',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: undefined,
-                    target: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            ],
+            action: 'added',
+            sourceSchema: undefined,
+            targetSchema: target.paths['/foo'].get.requestBody.content['application/json'],
             comment: 'request body for "application/json" media type has been added to GET "/foo" route'
           }
         ]
@@ -146,8 +129,10 @@ test('changing request body schema property value', () => {
         changes: [
           {
             type: 'requestBody',
-            action: 'changed',
             mediaType: 'application/json',
+            action: 'changed',
+            sourceSchema: source.paths['/foo'].get.requestBody.content['application/json'],
+            targetSchema: target.paths['/foo'].get.requestBody.content['application/json'],
             changes: [
               {
                 keyword: 'schema',
@@ -219,25 +204,8 @@ test('removing request body schema property value', () => {
             type: 'requestBody',
             action: 'deleted',
             mediaType: 'application/json',
-            changes: [
-              {
-                keyword: 'schema',
-                changes: [
-                  {
-                    jsonPath: '#',
-                    source: {
-                      type: 'object',
-                      properties: {
-                        bar: {
-                          type: 'string'
-                        }
-                      }
-                    },
-                    target: undefined
-                  }
-                ]
-              }
-            ],
+            sourceSchema: source.paths['/foo'].get.requestBody.content['application/json'],
+            targetSchema: undefined,
             comment: 'request body for "application/json" media type has been deleted from GET "/foo" route'
           }
         ]

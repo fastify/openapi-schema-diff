@@ -124,18 +124,8 @@ function compareParametersObjects (
         action: 'added',
         name: targetParameterName,
         in: targetParameterIn,
-        changes: [
-          {
-            keyword: 'schema',
-            changes: [
-              {
-                jsonPath: '#',
-                source: undefined,
-                target: targetParameterObject.schema
-              }
-            ]
-          }
-        ],
+        sourceSchema: undefined,
+        targetSchema: targetParameterObject,
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
          ` has been added to ${method.toUpperCase()} "${path}" route`
       })
@@ -156,6 +146,8 @@ function compareParametersObjects (
         action: 'changed',
         name: targetParameterName,
         in: targetParameterIn,
+        sourceSchema: sourceParameterObject,
+        targetSchema: targetParameterObject,
         changes: [
           {
             keyword: 'schema',
@@ -184,18 +176,8 @@ function compareParametersObjects (
         action: 'deleted',
         name: sourceParameterName,
         in: sourceParameterIn,
-        changes: [
-          {
-            keyword: 'schema',
-            changes: [
-              {
-                jsonPath: '#',
-                source: sourceParameterObject.schema,
-                target: undefined
-              }
-            ]
-          }
-        ],
+        sourceSchema: sourceParameterObject,
+        targetSchema: undefined,
         comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
           ` has been deleted from ${method.toUpperCase()} "${path}" route`
       })
@@ -229,18 +211,8 @@ function compareRequestBodyObjects (
       type: 'requestBody',
       action: 'added',
       mediaType,
-      changes: [
-        {
-          keyword: 'schema',
-          changes: [
-            {
-              jsonPath: '#',
-              source: undefined,
-              target: requestBodyObject.schema
-            }
-          ]
-        }
-      ],
+      sourceSchema: undefined,
+      targetSchema: requestBodyObject,
       comment: `request body for "${mediaType}" media type` +
         ` has been added to ${method.toUpperCase()} "${path}" route`
     })
@@ -252,18 +224,8 @@ function compareRequestBodyObjects (
       type: 'requestBody',
       action: 'deleted',
       mediaType,
-      changes: [
-        {
-          keyword: 'schema',
-          changes: [
-            {
-              jsonPath: '#',
-              source: requestBodyObject.schema,
-              target: undefined
-            }
-          ]
-        }
-      ],
+      sourceSchema: requestBodyObject,
+      targetSchema: undefined,
       comment: `request body for "${mediaType}" media type` +
         ` has been deleted from ${method.toUpperCase()} "${path}" route`
     })
@@ -286,6 +248,8 @@ function compareRequestBodyObjects (
         type: 'requestBody',
         action: 'changed',
         mediaType,
+        sourceSchema: sourceRequestBodyObject,
+        targetSchema: targetRequestBodyObject,
         changes: [
           {
             keyword: 'schema',
@@ -328,18 +292,8 @@ function compareResponseObjects (
           action: 'added',
           statusCode,
           header,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: [
-                {
-                  jsonPath: '#',
-                  source: undefined,
-                  target: targetHeaderObject.schema
-                }
-              ]
-            }
-          ],
+          sourceSchema: undefined,
+          targetSchema: targetHeaderObject,
           comment: `response header for "${statusCode}" status code` +
             ` has been added to ${method.toUpperCase()} "${path}" route`
         })
@@ -360,6 +314,8 @@ function compareResponseObjects (
           action: 'changed',
           statusCode,
           header,
+          sourceSchema: sourceHeaderObject,
+          targetSchema: targetHeaderObject,
           changes: [
             {
               keyword: 'schema',
@@ -382,18 +338,8 @@ function compareResponseObjects (
           action: 'added',
           statusCode,
           mediaType,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: [
-                {
-                  jsonPath: '#',
-                  source: undefined,
-                  target: targetMediaTypeObject.schema
-                }
-              ]
-            }
-          ],
+          sourceSchema: undefined,
+          targetSchema: targetMediaTypeObject,
           comment: `response body for "${statusCode}" "${mediaType}" ` +
             `has been added to ${method.toUpperCase()} "${path}" route`
         })
@@ -414,6 +360,8 @@ function compareResponseObjects (
           action: 'changed',
           statusCode,
           mediaType,
+          sourceSchema: sourceMediaTypeObject,
+          targetSchema: targetMediaTypeObject,
           changes: [
             {
               keyword: 'schema',
@@ -441,18 +389,8 @@ function compareResponseObjects (
           action: 'deleted',
           statusCode,
           header,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: [
-                {
-                  jsonPath: '#',
-                  source: sourceHeaderObject.schema,
-                  target: undefined
-                }
-              ]
-            }
-          ],
+          sourceSchema: sourceHeaderObject,
+          targetSchema: undefined,
           comment: `response header for "${statusCode}" status code` +
             ` has been deleted from ${method.toUpperCase()} "${path}" route`
         })
@@ -470,18 +408,8 @@ function compareResponseObjects (
           action: 'deleted',
           statusCode,
           mediaType,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: [
-                {
-                  jsonPath: '#',
-                  source: sourceMediaTypeObject.schema,
-                  target: undefined
-                }
-              ]
-            }
-          ],
+          sourceSchema: sourceMediaTypeObject,
+          targetSchema: undefined,
           comment: `response body for "${statusCode}" "${mediaType}" ` +
             `has been deleted from ${method.toUpperCase()} "${path}" route`
         })
