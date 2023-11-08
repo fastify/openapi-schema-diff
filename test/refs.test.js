@@ -88,11 +88,16 @@ test('modifying routes schema through ref', () => {
             type: 'responseBody',
             statusCode: '200',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/properties/bar/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/properties/bar/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -187,11 +192,16 @@ test('different $ref property values', () => {
             type: 'responseBody',
             statusCode: '200',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/$ref',
-                source: '#/components/schemas/Bar1',
-                target: '#/components/schemas/Bar2'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/$ref',
+                    source: '#/components/schemas/Bar1',
+                    target: '#/components/schemas/Bar2'
+                  }
+                ]
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -348,11 +358,16 @@ test('compare two different schemas with circular refs', () => {
             type: 'responseBody',
             statusCode: '200',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/properties/bar/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/properties/bar/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
@@ -542,11 +557,16 @@ test('compare two different schemas with cross circular refs', () => {
             type: 'responseBody',
             statusCode: '200',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/properties/bar/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/properties/bar/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'

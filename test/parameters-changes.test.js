@@ -48,13 +48,18 @@ test('adding request query schema property value', () => {
             type: 'parameter',
             name: 'bar',
             in: 'query',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: undefined,
-                target: {
-                  type: 'string'
-                }
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: undefined,
+                    target: {
+                      type: 'string'
+                    }
+                  }
+                ]
               }
             ],
             comment: 'query parameter "bar" has been added to GET "/foo" route'
@@ -117,11 +122,16 @@ test('changing request header schema property value', () => {
             type: 'parameter',
             name: 'bar',
             in: 'header',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'header parameter "bar" has been changed in GET "/foo" route'
@@ -176,13 +186,18 @@ test('removing request path param schema property value', () => {
             type: 'parameter',
             name: 'bar',
             in: 'path',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: {
-                  type: 'string'
-                },
-                target: undefined
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: {
+                      type: 'string'
+                    },
+                    target: undefined
+                  }
+                ]
               }
             ],
             comment: 'path parameter "bar" has been deleted from GET "/foo" route'

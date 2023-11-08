@@ -56,13 +56,18 @@ test('adding response header schema property', () => {
             type: 'responseHeader',
             statusCode: '200',
             header: 'x-header-foo',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: undefined,
-                target: {
-                  type: 'integer'
-                }
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: undefined,
+                    target: {
+                      type: 'integer'
+                    }
+                  }
+                ]
               }
             ],
             comment: 'response header for "200" status code has been added to GET "/foo" route'
@@ -125,13 +130,18 @@ test('removing response header schema property', () => {
             type: 'responseHeader',
             statusCode: '200',
             header: 'x-header-foo',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: {
-                  type: 'integer'
-                },
-                target: undefined
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: {
+                      type: 'integer'
+                    },
+                    target: undefined
+                  }
+                ]
               }
             ],
             comment: 'response header for "200" status code has been deleted from GET "/foo" route'
@@ -202,11 +212,16 @@ test('changing response header schema property', () => {
             type: 'responseHeader',
             statusCode: '200',
             header: 'x-header-foo',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'response header for "200" status code has been changed in GET "/foo" route'

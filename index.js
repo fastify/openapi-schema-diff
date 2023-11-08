@@ -96,7 +96,7 @@ function checkSchemaVersions (sourceSchemaVersion, targetSchemaVersion) {
   }
 }
 
-function compareParameterObjects (
+function compareParametersObjects (
   ctx,
   path,
   method,
@@ -123,11 +123,16 @@ function compareParameterObjects (
         type: 'parameter',
         name: targetParameterName,
         in: targetParameterIn,
-        schemaChanges: [
+        changes: [
           {
-            jsonPath: '#',
-            source: undefined,
-            target: targetParameterObject.schema
+            keyword: 'schema',
+            changes: [
+              {
+                jsonPath: '#',
+                source: undefined,
+                target: targetParameterObject.schema
+              }
+            ]
           }
         ],
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
@@ -149,7 +154,12 @@ function compareParameterObjects (
         type: 'parameter',
         name: targetParameterName,
         in: targetParameterIn,
-        schemaChanges: parametersSchemaChanges,
+        changes: [
+          {
+            keyword: 'schema',
+            changes: parametersSchemaChanges
+          }
+        ],
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
           ` has been changed in ${method.toUpperCase()} "${path}" route`
       })
@@ -171,11 +181,16 @@ function compareParameterObjects (
         type: 'parameter',
         name: sourceParameterName,
         in: sourceParameterIn,
-        schemaChanges: [
+        changes: [
           {
-            jsonPath: '#',
-            source: sourceParameterObject.schema,
-            target: undefined
+            keyword: 'schema',
+            changes: [
+              {
+                jsonPath: '#',
+                source: sourceParameterObject.schema,
+                target: undefined
+              }
+            ]
           }
         ],
         comment: `${sourceParameterIn} parameter "${sourceParameterName}"` +
@@ -210,11 +225,16 @@ function compareRequestBodyObjects (
     changes.push({
       type: 'requestBody',
       mediaType,
-      schemaChanges: [
+      changes: [
         {
-          jsonPath: '#',
-          source: undefined,
-          target: requestBodyObject.schema
+          keyword: 'schema',
+          changes: [
+            {
+              jsonPath: '#',
+              source: undefined,
+              target: requestBodyObject.schema
+            }
+          ]
         }
       ],
       comment: `request body for "${mediaType}" media type` +
@@ -227,11 +247,16 @@ function compareRequestBodyObjects (
     changes.push({
       type: 'requestBody',
       mediaType,
-      schemaChanges: [
+      changes: [
         {
-          jsonPath: '#',
-          source: requestBodyObject.schema,
-          target: undefined
+          keyword: 'schema',
+          changes: [
+            {
+              jsonPath: '#',
+              source: requestBodyObject.schema,
+              target: undefined
+            }
+          ]
         }
       ],
       comment: `request body for "${mediaType}" media type` +
@@ -255,7 +280,12 @@ function compareRequestBodyObjects (
       changes.push({
         type: 'requestBody',
         mediaType,
-        schemaChanges: requestBodySchemaChanges,
+        changes: [
+          {
+            keyword: 'schema',
+            changes: requestBodySchemaChanges
+          }
+        ],
         comment: `request body for "${mediaType}" media type` +
           ` has been changed in ${method.toUpperCase()} "${path}" route`
       })
@@ -291,11 +321,16 @@ function compareResponseObjects (
           type: 'responseHeader',
           statusCode,
           header,
-          schemaChanges: [
+          changes: [
             {
-              jsonPath: '#',
-              source: undefined,
-              target: targetHeaderObject.schema
+              keyword: 'schema',
+              changes: [
+                {
+                  jsonPath: '#',
+                  source: undefined,
+                  target: targetHeaderObject.schema
+                }
+              ]
             }
           ],
           comment: `response header for "${statusCode}" status code` +
@@ -317,7 +352,12 @@ function compareResponseObjects (
           type: 'responseHeader',
           statusCode,
           header,
-          schemaChanges: headerObjectSchemaChanges,
+          changes: [
+            {
+              keyword: 'schema',
+              changes: headerObjectSchemaChanges
+            }
+          ],
           comment: `response header for "${statusCode}" status code` +
             ` has been changed in ${method.toUpperCase()} "${path}" route`
         })
@@ -333,11 +373,16 @@ function compareResponseObjects (
           type: 'responseBody',
           statusCode,
           mediaType,
-          schemaChanges: [
+          changes: [
             {
-              jsonPath: '#',
-              source: undefined,
-              target: targetMediaTypeObject.schema
+              keyword: 'schema',
+              changes: [
+                {
+                  jsonPath: '#',
+                  source: undefined,
+                  target: targetMediaTypeObject.schema
+                }
+              ]
             }
           ],
           comment: `response body for "${statusCode}" "${mediaType}" ` +
@@ -359,7 +404,12 @@ function compareResponseObjects (
           type: 'responseBody',
           statusCode,
           mediaType,
-          schemaChanges: mediaTypeSchemaChanges,
+          changes: [
+            {
+              keyword: 'schema',
+              changes: mediaTypeSchemaChanges
+            }
+          ],
           comment: `response body for "${statusCode}" "${mediaType}"` +
             ` has been changed in ${method.toUpperCase()} "${path}" route`
         })
@@ -380,11 +430,16 @@ function compareResponseObjects (
           type: 'responseHeader',
           statusCode,
           header,
-          schemaChanges: [
+          changes: [
             {
-              jsonPath: '#',
-              source: sourceHeaderObject.schema,
-              target: undefined
+              keyword: 'schema',
+              changes: [
+                {
+                  jsonPath: '#',
+                  source: sourceHeaderObject.schema,
+                  target: undefined
+                }
+              ]
             }
           ],
           comment: `response header for "${statusCode}" status code` +
@@ -403,11 +458,16 @@ function compareResponseObjects (
           type: 'responseBody',
           statusCode,
           mediaType,
-          schemaChanges: [
+          changes: [
             {
-              jsonPath: '#',
-              source: sourceMediaTypeObject.schema,
-              target: undefined
+              keyword: 'schema',
+              changes: [
+                {
+                  jsonPath: '#',
+                  source: sourceMediaTypeObject.schema,
+                  target: undefined
+                }
+              ]
             }
           ],
           comment: `response body for "${statusCode}" "${mediaType}" ` +
@@ -428,7 +488,7 @@ function compareOperationObjects (
   sourceOperationObject,
   targetOperationObject
 ) {
-  const parameterObjectsChanges = compareParameterObjects(
+  const parameterObjectsChanges = compareParametersObjects(
     ctx,
     path,
     method,

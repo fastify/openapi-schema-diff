@@ -54,18 +54,23 @@ test('adding request body schema property value', () => {
           {
             type: 'requestBody',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: undefined,
-                target: {
-                  type: 'object',
-                  properties: {
-                    bar: {
-                      type: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: undefined,
+                    target: {
+                      type: 'object',
+                      properties: {
+                        bar: {
+                          type: 'string'
+                        }
+                      }
                     }
                   }
-                }
+                ]
               }
             ],
             comment: 'request body for "application/json" media type has been added to GET "/foo" route'
@@ -141,11 +146,16 @@ test('changing request body schema property value', () => {
           {
             type: 'requestBody',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#/properties/bar/type',
-                source: 'integer',
-                target: 'string'
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#/properties/bar/type',
+                    source: 'integer',
+                    target: 'string'
+                  }
+                ]
               }
             ],
             comment: 'request body for "application/json" media type has been changed in GET "/foo" route'
@@ -206,18 +216,23 @@ test('removing request body schema property value', () => {
           {
             type: 'requestBody',
             mediaType: 'application/json',
-            schemaChanges: [
+            changes: [
               {
-                jsonPath: '#',
-                source: {
-                  type: 'object',
-                  properties: {
-                    bar: {
-                      type: 'string'
-                    }
+                keyword: 'schema',
+                changes: [
+                  {
+                    jsonPath: '#',
+                    source: {
+                      type: 'object',
+                      properties: {
+                        bar: {
+                          type: 'string'
+                        }
+                      }
+                    },
+                    target: undefined
                   }
-                },
-                target: undefined
+                ]
               }
             ],
             comment: 'request body for "application/json" media type has been deleted from GET "/foo" route'
