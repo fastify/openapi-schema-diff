@@ -142,7 +142,8 @@ test('changing request body schema property value', () => {
                     source: 'integer',
                     target: 'string'
                   }
-                ]
+                ],
+                comment: 'request body schema has been changed'
               }
             ],
             comment: 'request body for "application/json" media type has been changed in GET "/foo" route'
@@ -278,7 +279,8 @@ test('making request body required should count as a breaking change', () => {
               {
                 keyword: 'required',
                 source: false,
-                target: true
+                target: true,
+                comment: 'request body has been made required'
               }
             ],
             comment: 'request body for "application/json" media type has been changed in GET "/foo" route'

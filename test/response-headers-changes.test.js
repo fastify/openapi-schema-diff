@@ -202,7 +202,8 @@ test('changing response header schema property', () => {
                     source: 'integer',
                     target: 'string'
                   }
-                ]
+                ],
+                comment: 'response header schema has been changed'
               }
             ],
             comment: 'response header for "200" status code has been changed in GET "/foo" route'

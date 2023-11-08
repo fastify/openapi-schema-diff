@@ -349,7 +349,8 @@ test('adding response body schema property', () => {
                       }
                     }
                   }
-                ]
+                ],
+                comment: 'response body schema has been changed'
               }
             ],
             comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
@@ -441,7 +442,8 @@ test('removing schema property', () => {
                     },
                     target: undefined
                   }
-                ]
+                ],
+                comment: 'response body schema has been changed'
               }
             ],
             comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
@@ -533,7 +535,8 @@ test('adding schema property', () => {
                     },
                     target: undefined
                   }
-                ]
+                ],
+                comment: 'response body schema has been changed'
               }
             ],
             comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'

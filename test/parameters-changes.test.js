@@ -123,7 +123,8 @@ test('changing request header schema property value', () => {
                     source: 'integer',
                     target: 'string'
                   }
-                ]
+                ],
+                comment: 'parameter schema has been changed'
               }
             ],
             comment: 'header parameter "bar" has been changed in GET "/foo" route'
@@ -249,7 +250,8 @@ test('making parameter required should count as a breaking change', () => {
               {
                 keyword: 'required',
                 source: undefined,
-                target: true
+                target: true,
+                comment: 'parameter has been made required'
               }
             ],
             comment: 'header parameter "bar" has been changed in GET "/foo" route'

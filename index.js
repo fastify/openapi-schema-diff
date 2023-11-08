@@ -145,7 +145,8 @@ function compareParametersObjects (
     if (parametersSchemaChanges.length > 0) {
       paramChanges.push({
         keyword: 'schema',
-        changes: parametersSchemaChanges
+        changes: parametersSchemaChanges,
+        comment: 'parameter schema has been changed'
       })
     }
 
@@ -153,7 +154,8 @@ function compareParametersObjects (
       paramChanges.push({
         keyword: 'required',
         source: sourceParameterObject.required,
-        target: targetParameterObject.required
+        target: targetParameterObject.required,
+        comment: 'parameter has been made required'
       })
     }
 
@@ -260,7 +262,8 @@ function compareRequestBodyObjects (
     if (requestBodySchemaChanges.length > 0) {
       requestBodyChanges.push({
         keyword: 'schema',
-        changes: requestBodySchemaChanges
+        changes: requestBodySchemaChanges,
+        comment: 'request body schema has been changed'
       })
     }
 
@@ -268,7 +271,8 @@ function compareRequestBodyObjects (
       requestBodyChanges.push({
         keyword: 'required',
         source: sourceRequestBodyObject.required,
-        target: targetRequestBodyObject.required
+        target: targetRequestBodyObject.required,
+        comment: 'request body has been made required'
       })
     }
 
@@ -337,11 +341,12 @@ function compareResponseObjects (
       if (headerObjectSchemaChanges.length > 0) {
         headerObjectChanges.push({
           keyword: 'schema',
-          changes: headerObjectSchemaChanges
+          changes: headerObjectSchemaChanges,
+          comment: 'response header schema has been changed'
         })
       }
 
-      if (headerObjectSchemaChanges.length > 0) {
+      if (headerObjectChanges.length > 0) {
         changes.push({
           type: 'responseHeader',
           action: 'changed',
@@ -349,12 +354,7 @@ function compareResponseObjects (
           header,
           sourceSchema: sourceHeaderObject,
           targetSchema: targetHeaderObject,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: headerObjectSchemaChanges
-            }
-          ],
+          changes: headerObjectChanges,
           comment: `response header for "${statusCode}" status code` +
             ` has been changed in ${method.toUpperCase()} "${path}" route`
         })
@@ -392,7 +392,8 @@ function compareResponseObjects (
       if (mediaTypeSchemaChanges.length > 0) {
         responseBodyChanges.push({
           keyword: 'schema',
-          changes: mediaTypeSchemaChanges
+          changes: mediaTypeSchemaChanges,
+          comment: 'response body schema has been changed'
         })
       }
 

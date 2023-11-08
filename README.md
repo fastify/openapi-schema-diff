@@ -133,7 +133,8 @@ assert.deepEqual(differences, {
                     type: 'string'
                   }
                 }
-              ]
+              ],
+              comment: 'response header schema has been changed'
             }
           ],
           comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/pets" route'
@@ -240,6 +241,7 @@ Each of the route components has it's own unique properties that identify it. Fo
 ##### schema keyword change object
 
 - `keyword` __\<string\>__ - keyword name. Equals to `schema`.
+- `comment` __\<string\>__ - a comment describing the change.
 - `changes` __\<array\>__ - a list of changes in a component json schema.
   - `jsonPath` __\<string\>__ - JSON path of the changed schema.
   - `source` __\<object\>__ - source subschema placed at the `jsonPath`.
@@ -250,6 +252,7 @@ Each of the route components has it's own unique properties that identify it. Fo
 - `keyword` __\<string\>__ - keyword name. Equals to `required`.
 - `source` __\<boolean\>__ - source value of the keyword.
 - `target` __\<boolean\>__ - target value of the keyword.
+- `comment` __\<string\>__ - a comment describing the change.
 
 <a name="license"></a>
 
