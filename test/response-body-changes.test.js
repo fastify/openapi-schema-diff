@@ -60,7 +60,7 @@ test('adding response body schema', () => {
             mediaType: 'application/json',
             sourceSchema: undefined,
             targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
-            comment: 'response body for "200" "application/json" has been added to GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been added to GET "/foo" route'
           }
         ]
       }
@@ -128,7 +128,7 @@ test('adding response body schema for status code', () => {
             mediaType: 'application/json',
             sourceSchema: undefined,
             targetSchema: target.paths['/foo'].get.responses['200'].content['application/json'],
-            comment: 'response body for "200" "application/json" has been added to GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been added to GET "/foo" route'
           }
         ]
       }
@@ -192,7 +192,7 @@ test('removing response body schemas', () => {
             mediaType: 'application/json',
             sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
             targetSchema: undefined,
-            comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been deleted from GET "/foo" route'
           }
         ]
       }
@@ -260,7 +260,7 @@ test('removing response body schema for status code', () => {
             action: 'deleted',
             sourceSchema: source.paths['/foo'].get.responses['200'].content['application/json'],
             targetSchema: undefined,
-            comment: 'response body for "200" "application/json" has been deleted from GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been deleted from GET "/foo" route'
           }
         ]
       }
@@ -352,7 +352,7 @@ test('adding response body schema property', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
@@ -444,7 +444,7 @@ test('removing schema property', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
@@ -536,7 +536,7 @@ test('adding schema property', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }

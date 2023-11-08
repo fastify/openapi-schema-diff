@@ -136,7 +136,7 @@ assert.deepEqual(differences, {
               ]
             }
           ],
-          comment: 'response body for "200" "application/json" has been changed in GET "/pets" route'
+          comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/pets" route'
         }
       ]
     }

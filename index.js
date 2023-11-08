@@ -373,8 +373,8 @@ function compareResponseObjects (
           mediaType,
           sourceSchema: undefined,
           targetSchema: targetMediaTypeObject,
-          comment: `response body for "${statusCode}" "${mediaType}" ` +
-            `has been added to ${method.toUpperCase()} "${path}" route`
+          comment: `response body for "${statusCode}" status code and "${mediaType}" media type` +
+            ` has been added to ${method.toUpperCase()} "${path}" route`
         })
         continue
       }
@@ -405,7 +405,7 @@ function compareResponseObjects (
           sourceSchema: sourceMediaTypeObject,
           targetSchema: targetMediaTypeObject,
           changes: responseBodyChanges,
-          comment: `response body for "${statusCode}" "${mediaType}"` +
+          comment: `response body for "${statusCode}" status code and "${mediaType}" media type` +
             ` has been changed in ${method.toUpperCase()} "${path}" route`
         })
       }
@@ -447,8 +447,8 @@ function compareResponseObjects (
           mediaType,
           sourceSchema: sourceMediaTypeObject,
           targetSchema: undefined,
-          comment: `response body for "${statusCode}" "${mediaType}" ` +
-            `has been deleted from ${method.toUpperCase()} "${path}" route`
+          comment: `response body for "${statusCode}" status code and "${mediaType}" media type` +
+            ` has been deleted from ${method.toUpperCase()} "${path}" route`
         })
         continue
       }

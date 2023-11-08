@@ -103,7 +103,7 @@ test('modifying routes schema through ref', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
@@ -210,7 +210,7 @@ test('different $ref property values', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
@@ -379,7 +379,7 @@ test('compare two different schemas with circular refs', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
@@ -581,7 +581,7 @@ test('compare two different schemas with cross circular refs', () => {
                 ]
               }
             ],
-            comment: 'response body for "200" "application/json" has been changed in GET "/foo" route'
+            comment: 'response body for "200" status code and "application/json" media type has been changed in GET "/foo" route'
           }
         ]
       }
