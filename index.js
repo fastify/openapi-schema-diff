@@ -264,6 +264,14 @@ function compareRequestBodyObjects (
       })
     }
 
+    if (!sourceRequestBodyObject.required && targetRequestBodyObject.required) {
+      requestBodyChanges.push({
+        keyword: 'required',
+        source: sourceRequestBodyObject.required,
+        target: targetRequestBodyObject.required
+      })
+    }
+
     if (requestBodyChanges.length > 0) {
       changes.push({
         type: 'requestBody',
