@@ -132,6 +132,8 @@ function compareParametersObjects (
       continue
     }
 
+    const paramChanges = []
+
     const parametersSchemaChanges = compareJsonSchemas(
       ctx,
       sourceParameterObject.schema,
@@ -141,6 +143,21 @@ function compareParametersObjects (
     )
 
     if (parametersSchemaChanges.length > 0) {
+      paramChanges.push({
+        keyword: 'schema',
+        changes: parametersSchemaChanges
+      })
+    }
+
+    if (!sourceParameterObject.required && targetParameterObject.required) {
+      paramChanges.push({
+        keyword: 'required',
+        source: sourceParameterObject.required,
+        target: targetParameterObject.required
+      })
+    }
+
+    if (paramChanges.length > 0) {
       changes.push({
         type: 'parameter',
         action: 'changed',
@@ -148,12 +165,7 @@ function compareParametersObjects (
         in: targetParameterIn,
         sourceSchema: sourceParameterObject,
         targetSchema: targetParameterObject,
-        changes: [
-          {
-            keyword: 'schema',
-            changes: parametersSchemaChanges
-          }
-        ],
+        changes: paramChanges,
         comment: `${targetParameterIn} parameter "${targetParameterName}"` +
           ` has been changed in ${method.toUpperCase()} "${path}" route`
       })
@@ -235,6 +247,8 @@ function compareRequestBodyObjects (
     const sourceRequestBodyObject = sourceRequestBodyContent[mediaType]
     const targetRequestBodyObject = targetRequestBodyContent[mediaType]
 
+    const requestBodyChanges = []
+
     const requestBodySchemaChanges = compareJsonSchemas(
       ctx,
       sourceRequestBodyObject.schema,
@@ -244,18 +258,20 @@ function compareRequestBodyObjects (
     )
 
     if (requestBodySchemaChanges.length > 0) {
+      requestBodyChanges.push({
+        keyword: 'schema',
+        changes: requestBodySchemaChanges
+      })
+    }
+
+    if (requestBodyChanges.length > 0) {
       changes.push({
         type: 'requestBody',
         action: 'changed',
         mediaType,
         sourceSchema: sourceRequestBodyObject,
         targetSchema: targetRequestBodyObject,
-        changes: [
-          {
-            keyword: 'schema',
-            changes: requestBodySchemaChanges
-          }
-        ],
+        changes: requestBodyChanges,
         comment: `request body for "${mediaType}" media type` +
           ` has been changed in ${method.toUpperCase()} "${path}" route`
       })
@@ -300,6 +316,8 @@ function compareResponseObjects (
         continue
       }
 
+      const headerObjectChanges = []
+
       const headerObjectSchemaChanges = compareJsonSchemas(
         ctx,
         sourceHeaderObject.schema,
@@ -307,6 +325,13 @@ function compareResponseObjects (
         `#/paths${path}/${method}/responses/${statusCode}/headers/${header}`,
         '#'
       )
+
+      if (headerObjectSchemaChanges.length > 0) {
+        headerObjectChanges.push({
+          keyword: 'schema',
+          changes: headerObjectSchemaChanges
+        })
+      }
 
       if (headerObjectSchemaChanges.length > 0) {
         changes.push({
@@ -346,6 +371,8 @@ function compareResponseObjects (
         continue
       }
 
+      const responseBodyChanges = []
+
       const mediaTypeSchemaChanges = compareJsonSchemas(
         ctx,
         sourceMediaTypeObject.schema,
@@ -355,6 +382,13 @@ function compareResponseObjects (
       )
 
       if (mediaTypeSchemaChanges.length > 0) {
+        responseBodyChanges.push({
+          keyword: 'schema',
+          changes: mediaTypeSchemaChanges
+        })
+      }
+
+      if (responseBodyChanges.length > 0) {
         changes.push({
           type: 'responseBody',
           action: 'changed',
@@ -362,12 +396,7 @@ function compareResponseObjects (
           mediaType,
           sourceSchema: sourceMediaTypeObject,
           targetSchema: targetMediaTypeObject,
-          changes: [
-            {
-              keyword: 'schema',
-              changes: mediaTypeSchemaChanges
-            }
-          ],
+          changes: responseBodyChanges,
           comment: `response body for "${statusCode}" "${mediaType}"` +
             ` has been changed in ${method.toUpperCase()} "${path}" route`
         })

@@ -188,3 +188,128 @@ test('removing request path param schema property value', () => {
     ]
   })
 })
+
+test('making parameter required should count as a breaking change', () => {
+  const source = {
+    openapi: '1.0.0',
+    paths: {
+      '/foo': {
+        get: {
+          parameters: [{
+            name: 'bar',
+            in: 'header',
+            schema: {
+              type: 'integer'
+            }
+          }]
+        }
+      }
+    }
+  }
+
+  const target = {
+    openapi: '1.0.0',
+    paths: {
+      '/foo': {
+        get: {
+          parameters: [{
+            name: 'bar',
+            in: 'header',
+            schema: {
+              type: 'integer'
+            },
+            required: true
+          }]
+        }
+      }
+    }
+  }
+
+  const diff = compareOpenApiSchemas(source, target)
+  assert.deepStrictEqual(diff, {
+    isEqual: false,
+    sameRoutes: [],
+    addedRoutes: [],
+    deletedRoutes: [],
+    changedRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get,
+        changes: [
+          {
+            type: 'parameter',
+            name: 'bar',
+            in: 'header',
+            action: 'changed',
+            sourceSchema: source.paths['/foo'].get.parameters[0],
+            targetSchema: target.paths['/foo'].get.parameters[0],
+            changes: [
+              {
+                keyword: 'required',
+                source: undefined,
+                target: true
+              }
+            ],
+            comment: 'header parameter "bar" has been changed in GET "/foo" route'
+          }
+        ]
+      }
+    ]
+  })
+})
+
+test('making parameter optional should not count as a breaking change', () => {
+  const source = {
+    openapi: '1.0.0',
+    paths: {
+      '/foo': {
+        get: {
+          parameters: [{
+            name: 'bar',
+            in: 'header',
+            schema: {
+              type: 'integer'
+            },
+            required: true
+          }]
+        }
+      }
+    }
+  }
+
+  const target = {
+    openapi: '1.0.0',
+    paths: {
+      '/foo': {
+        get: {
+          parameters: [{
+            name: 'bar',
+            in: 'header',
+            schema: {
+              type: 'integer'
+            },
+            required: false
+          }]
+        }
+      }
+    }
+  }
+
+  const diff = compareOpenApiSchemas(source, target)
+  assert.deepStrictEqual(diff, {
+    isEqual: true,
+    sameRoutes: [
+      {
+        method: 'get',
+        path: '/foo',
+        sourceSchema: source.paths['/foo'].get,
+        targetSchema: target.paths['/foo'].get
+      }
+    ],
+    addedRoutes: [],
+    deletedRoutes: [],
+    changedRoutes: []
+  })
+})
