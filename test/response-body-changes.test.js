@@ -55,6 +55,7 @@ test('adding response body schema', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'added',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -139,6 +140,7 @@ test('adding response body schema for status code', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'added',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -219,6 +221,7 @@ test('removing response body schemas', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'deleted',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -303,6 +306,7 @@ test('removing response body schema for status code', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'deleted',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -395,6 +399,7 @@ test('adding response body schema property', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -484,6 +489,7 @@ test('removing schema property', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -573,6 +579,7 @@ test('adding schema property', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [

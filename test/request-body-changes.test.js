@@ -53,6 +53,7 @@ test('adding request body schema property value', () => {
         changes: [
           {
             type: 'requestBody',
+            action: 'added',
             mediaType: 'application/json',
             changes: [
               {
@@ -145,6 +146,7 @@ test('changing request body schema property value', () => {
         changes: [
           {
             type: 'requestBody',
+            action: 'changed',
             mediaType: 'application/json',
             changes: [
               {
@@ -215,6 +217,7 @@ test('removing request body schema property value', () => {
         changes: [
           {
             type: 'requestBody',
+            action: 'deleted',
             mediaType: 'application/json',
             changes: [
               {

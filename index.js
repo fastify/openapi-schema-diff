@@ -121,6 +121,7 @@ function compareParametersObjects (
     if (sourceParameterObject === undefined) {
       changes.push({
         type: 'parameter',
+        action: 'added',
         name: targetParameterName,
         in: targetParameterIn,
         changes: [
@@ -152,6 +153,7 @@ function compareParametersObjects (
     if (parametersSchemaChanges.length > 0) {
       changes.push({
         type: 'parameter',
+        action: 'changed',
         name: targetParameterName,
         in: targetParameterIn,
         changes: [
@@ -179,6 +181,7 @@ function compareParametersObjects (
     if (targetParameterObject === undefined) {
       changes.push({
         type: 'parameter',
+        action: 'deleted',
         name: sourceParameterName,
         in: sourceParameterIn,
         changes: [
@@ -224,6 +227,7 @@ function compareRequestBodyObjects (
     const requestBodyObject = targetRequestBodyContent[mediaType]
     changes.push({
       type: 'requestBody',
+      action: 'added',
       mediaType,
       changes: [
         {
@@ -246,6 +250,7 @@ function compareRequestBodyObjects (
     const requestBodyObject = sourceRequestBodyContent[mediaType]
     changes.push({
       type: 'requestBody',
+      action: 'deleted',
       mediaType,
       changes: [
         {
@@ -279,6 +284,7 @@ function compareRequestBodyObjects (
     if (requestBodySchemaChanges.length > 0) {
       changes.push({
         type: 'requestBody',
+        action: 'changed',
         mediaType,
         changes: [
           {
@@ -319,6 +325,7 @@ function compareResponseObjects (
       if (!sourceHeaderObject) {
         changes.push({
           type: 'responseHeader',
+          action: 'added',
           statusCode,
           header,
           changes: [
@@ -350,6 +357,7 @@ function compareResponseObjects (
       if (headerObjectSchemaChanges.length > 0) {
         changes.push({
           type: 'responseHeader',
+          action: 'changed',
           statusCode,
           header,
           changes: [
@@ -371,6 +379,7 @@ function compareResponseObjects (
       if (!sourceMediaTypeObject) {
         changes.push({
           type: 'responseBody',
+          action: 'added',
           statusCode,
           mediaType,
           changes: [
@@ -402,6 +411,7 @@ function compareResponseObjects (
       if (mediaTypeSchemaChanges.length > 0) {
         changes.push({
           type: 'responseBody',
+          action: 'changed',
           statusCode,
           mediaType,
           changes: [
@@ -428,6 +438,7 @@ function compareResponseObjects (
       if (!targetHeaderObject) {
         changes.push({
           type: 'responseHeader',
+          action: 'deleted',
           statusCode,
           header,
           changes: [
@@ -456,6 +467,7 @@ function compareResponseObjects (
       if (!targetMediaTypeObject) {
         changes.push({
           type: 'responseBody',
+          action: 'deleted',
           statusCode,
           mediaType,
           changes: [

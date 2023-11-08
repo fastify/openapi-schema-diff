@@ -54,6 +54,7 @@ test('adding response header schema property', () => {
         changes: [
           {
             type: 'responseHeader',
+            action: 'added',
             statusCode: '200',
             header: 'x-header-foo',
             changes: [
@@ -128,6 +129,7 @@ test('removing response header schema property', () => {
         changes: [
           {
             type: 'responseHeader',
+            action: 'deleted',
             statusCode: '200',
             header: 'x-header-foo',
             changes: [
@@ -210,6 +212,7 @@ test('changing response header schema property', () => {
         changes: [
           {
             type: 'responseHeader',
+            action: 'changed',
             statusCode: '200',
             header: 'x-header-foo',
             changes: [

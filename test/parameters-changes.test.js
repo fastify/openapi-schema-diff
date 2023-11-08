@@ -46,6 +46,7 @@ test('adding request query schema property value', () => {
         changes: [
           {
             type: 'parameter',
+            action: 'added',
             name: 'bar',
             in: 'query',
             changes: [
@@ -120,6 +121,7 @@ test('changing request header schema property value', () => {
         changes: [
           {
             type: 'parameter',
+            action: 'changed',
             name: 'bar',
             in: 'header',
             changes: [
@@ -184,6 +186,7 @@ test('removing request path param schema property value', () => {
         changes: [
           {
             type: 'parameter',
+            action: 'deleted',
             name: 'bar',
             in: 'path',
             changes: [

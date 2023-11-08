@@ -86,6 +86,7 @@ test('modifying routes schema through ref', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -190,6 +191,7 @@ test('different $ref property values', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -356,6 +358,7 @@ test('compare two different schemas with circular refs', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
@@ -555,6 +558,7 @@ test('compare two different schemas with cross circular refs', () => {
         changes: [
           {
             type: 'responseBody',
+            action: 'changed',
             statusCode: '200',
             mediaType: 'application/json',
             changes: [
