@@ -25,6 +25,16 @@
     "url": "https://github.com/fastify/openapi-schema-diff/issues"
   },
   "homepage": "https://github.com/fastify/openapi-schema-diff#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
   "dependencies": {
     "json-schema-ref-resolver": "^2.0.0",
     "semver": "^7.5.4"
