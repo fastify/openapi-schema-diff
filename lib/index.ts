@@ -3,7 +3,7 @@
 const { randomUUID } = require('node:crypto')
 const { major: semverMajor } = require('semver')
 const { RefResolver } = require('json-schema-ref-resolver')
-const { compareObjectKeys } = require('./lib/utils.js')
+const { compareObjectKeys } = require('./lib/index.js')
 
 const HTTP_METHODS = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']
 
