@@ -786,7 +786,7 @@ function compareOpenApiSchemas (sourceSchema, targetSchema) {
   }
   checkSchemaVersions(sourceSchema.openapi, targetSchema.openapi)
 
-  const ctx = {
+  const ctx: CompareContext = {
     changesCache: {},
     sourceSchemaId: randomUUID(),
     targetSchemaId: randomUUID(),
@@ -844,3 +844,4 @@ function compareObjectKeys (
 module.exports = compareOpenApiSchemas
 
 export default compareOpenApiSchemas
+export { compareOpenApiSchemas }
