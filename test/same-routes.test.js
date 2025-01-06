@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict')
 const { test } = require('node:test')
-const compareOpenApiSchemas = require('../index.js')
+const compareOpenApiSchemas = require('../dist/index.js')
 
 test('compare two equal schemas', () => {
   const source = {
