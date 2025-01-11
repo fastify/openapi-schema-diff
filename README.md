@@ -1,5 +1,9 @@
 # openapi-schema-diff
 
+[![CI](https://github.com/fastify/openapi-schema-diff/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fastify/openapi-schema-diff/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/openapi-schema-diff)](https://www.npmjs.com/package/openapi-schema-diff)
+[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
+
 __openapi-schema-diff__ is a javascript library that compares two OpenAPI schemas and finds breaking changes.
 
 - [Installation](#installation)
@@ -13,7 +17,7 @@ __openapi-schema-diff__ is a javascript library that compares two OpenAPI schema
 ## Installation
 
 ```bash
-npm install openapi-schema-diff
+npm i openapi-schema-diff
 ```
 
 <a name="usage"></a>
@@ -198,9 +202,9 @@ Compares two OpenAPI schemas and returns and finds breaking changes. Source and 
 - `sourceSchema` __\<object\>__ - source OpenAPI schema of the component.
 - `targetSchema` __\<object\>__ - target OpenAPI schema of the component.
 - `comment` __\<string\>__ - a comment describing the change.
-- `changes` __\<array\>__ - a list of changes in a component json schema. Exist only if `action` equals to `changed`. Each schema keyword has it's own change object. See [list of change objects](#list-schema-keywords-and-their-change-objects).
+- `changes` __\<array\>__ - a list of changes in a component json schema. Exist only if `action` equals to `changed`. Each schema keyword has its own change object. See [list of change objects](#list-schema-keywords-and-their-change-objects).
 
-Each of the route components has it's own unique properties that identify it. For more details look at the component change object: [parameter](#parameter-change-object), [request body](#request-body-change-object), [response body](#response-body-change-object), [response header](#response-header-change-object).
+Each of the route components has its own unique properties that identify it. For more details look at the component change object: [parameter](#parameter-change-object), [request body](#request-body-change-object), [response body](#response-body-change-object), [response header](#response-header-change-object).
 
 ##### Parameter change object
 
@@ -258,4 +262,4 @@ Each of the route components has it's own unique properties that identify it. Fo
 
 ## License
 
-MIT
+Licensed under [MIT](./LICENSE).
