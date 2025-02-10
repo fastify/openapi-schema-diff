@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict')
 const { test } = require('node:test')
-const compareOpenApiSchemas = require('../index.js')
+const compareOpenApiSchemas = require('../dist/index.js')
 
 test('should throw if source schema is not an object', () => {
   const source = 3
