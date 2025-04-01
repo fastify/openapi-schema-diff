@@ -36,7 +36,7 @@
     }
   ],
   "dependencies": {
-    "json-schema-ref-resolver": "^2.0.0",
+    "json-schema-ref-resolver": "^3.0.0",
     "semver": "^7.5.4"
   },
   "devDependencies": {
